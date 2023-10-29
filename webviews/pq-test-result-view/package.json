@@ -65,7 +65,7 @@
     "eslint-plugin-testing-library": "6.1.0",
     "eslint-webpack-plugin": "4.0.1",
     "file-loader": "6.2.0",
-    "fork-ts-checker-webpack-plugin": "9.0.0",
+    "fork-ts-checker-webpack-plugin": "9.0.1",
     "html-webpack-plugin": "5.5.3",
     "node-sass": "9.0.0",
     "rimraf": "5.0.5",
