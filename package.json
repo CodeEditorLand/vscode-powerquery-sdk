@@ -1,59 +1,53 @@
 {
   "name": "vscode-powerquery-sdk",
   "displayName": "Power Query SDK",
-  "description": "Power Query Connector SDK",
   "version": "0.0.1",
-  "author": {
-    "name": "Nikola Hristov",
-    "email": "nikola@nikolahristov.tech",
-    "url": "https://nikolahristov.tech"
-  },
-  "license": "MIT",
+  "private": "false",
+  "description": "Power Query Connector SDK",
+  "categories": [
+    "Programming Languages"
+  ],
   "homepage": "https://github.com/CodeEditorLand/CodeEditorLand#readme",
+  "bugs": {
+    "url": "https://github.com/CodeEditorLand/CodeEditorLand/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/CodeEditorLand/CodeEditorLand.git",
     "directory": "client"
   },
-  "issues": {
-    "url": "https://github.com/microsoft/vscode-powerquery-sdk/issues"
+  "license": "MIT",
+  "author": {
+    "name": "Nikola Hristov",
+    "email": "nikola@nikolahristov.tech",
+    "url": "https://nikolahristov.tech"
   },
-  "engines": {
-    "node": ">=16.13.2 <17",
-    "npm": ">=8.5.0",
-    "vscode": "1.62.0"
-  },
-  "capabilities": {
-    "untrustedWorkspaces": {
-      "supported": false
-    }
-  },
-  "categories": [
-    "Programming Languages"
-  ],
-  "activationEvents": [
-    "onStartupFinished",
-    "onCommand:workbench.action.tasks.runTask",
-    "onCommand:powerquery.sdk.tools.CreateNewProjectCommand",
-    "onCommand:powerquery.sdk.tools.SeizePqTestCommand",
-    "onCommand:powerquery.sdk.tools.SetupCurrentWorkspaceCommand",
-    "onCommand:powerquery.sdk.tools.DeleteCredentialCommand",
-    "onCommand:powerquery.sdk.tools.DisplayExtensionInfoCommand",
-    "onCommand:powerquery.sdk.tools.ListCredentialCommand",
-    "onCommand:powerquery.sdk.tools.GenerateAndSetCredentialCommand",
-    "onCommand:powerquery.sdk.tools.RefreshCredentialCommand",
-    "onCommand:powerquery.sdk.tools.RunTestBatteryCommand",
-    "onCommand:powerquery.sdk.tools.TestConnectionCommand",
-    "onView:powerquery.sdk.tools.LifeCycleTaskTreeView",
-    "onWebviewPanel:powerquery.sdk.tools.ResultWebView",
-    "onLanguage:powerquery"
-  ],
-  "extensionDependencies": [
-    "PowerQuery.vscode-powerquery"
-  ],
-  "publisher": "PowerQuery",
-  "icon": "etc/PQIcon_128.png",
+  "publisher": "playform",
+  "type": "module",
   "main": "./dist/extension.js",
+  "scripts": {
+    "audit": "npm audit --production",
+    "build": "npm run build:pq-test-result-view",
+    "build:pq-test-result-view": "cd webviews/pq-test-result-view && npm run build",
+    "clean": "ts-node scripts/clean.ts",
+    "code-install": "ts-node scripts/install.ts",
+    "compile": "webpack --mode development",
+    "compile-tests": "rimraf out && tsc -p . --outDir out",
+    "copy:i18n": "ts-node scripts/addI18n.ts",
+    "postinstall": "npm run install:pq-test-result-view",
+    "install:pq-test-result-view": "cd webviews/pq-test-result-view && npm ci",
+    "lint": "eslint src --ext ts",
+    "package": "npm run clean && npm run build && webpack --mode production && npm run copy:i18n",
+    "prepublishOnly": "TypeScriptESBuild Source/**/*.ts",
+    "pretest": "rimraf out && npm run compile-tests && npm run compile && npm run lint",
+    "test": "npm run test:unit-test && npm run test:e2e",
+    "test:e2e": "npm run compile-tests && ts-node scripts/test-e2e.ts",
+    "test:unit-test": "mocha -r ts-node/register -s 0 \"./unit-tests/**/*.spec.ts\"",
+    "vscode:prepublish": "npm run package",
+    "vsix": "npx vsce package --target win32-x64",
+    "watch": "webpack --mode development --watch",
+    "watch-tests": "rimraf out && tsc -p . -w --outDir out"
+  },
   "contributes": {
     "commands": [
       {
@@ -226,66 +220,6 @@
         }
       }
     },
-    "taskDefinitions": [
-      {
-        "type": "powerquery",
-        "when": "isWindows && processExecutionSupported",
-        "required": [
-          "operation"
-        ],
-        "properties": {
-          "operation": {
-            "type": "string",
-            "description": "%extension.pqtest.taskDefinitions.properties.operation.description%"
-          },
-          "additionalArgs": {
-            "type": "array",
-            "description": "%extension.pqtest.taskDefinitions.properties.additionalArgs.description%"
-          },
-          "pathToConnector": {
-            "type": "string",
-            "description": "%extension.pqtest.taskDefinitions.properties.pathToConnector.description%"
-          },
-          "pathToQueryFile": {
-            "type": "string",
-            "description": "%extension.pqtest.taskDefinitions.properties.pathToQueryFile.description%"
-          },
-          "credentialTemplate": {
-            "type": "object",
-            "description": "%extension.pqtest.taskDefinitions.properties.credentialTemplate.description%"
-          }
-        }
-      }
-    ],
-    "views": {
-      "explorer": [
-        {
-          "id": "powerquery.sdk.tools.LifeCycleTaskTreeView",
-          "name": "%extension.pqtest.explorer.name%"
-        }
-      ]
-    },
-    "viewsWelcome": [
-      {
-        "view": "powerquery.sdk.tools.LifeCycleTaskTreeView",
-        "contents": "%extension.pqtest.welcome.contents%"
-      }
-    ],
-    "menus": {
-      "commandPalette": [
-        {
-          "command": "powerquery.sdk.tools.RunTestBatteryCommand",
-          "when": "editorLangId == powerquery"
-        }
-      ],
-      "editor/context": [
-        {
-          "command": "powerquery.sdk.tools.RunTestBatteryCommand",
-          "when": "editorLangId == powerquery",
-          "group": "1_powerquery@1"
-        }
-      ]
-    },
     "debuggers": [
       {
         "type": "powerquery",
@@ -361,30 +295,94 @@
           "AskForPowerQueryFileName": "powerquery.sdk.getMQueryFileName"
         }
       }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "powerquery.sdk.tools.RunTestBatteryCommand",
+          "when": "editorLangId == powerquery"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "powerquery.sdk.tools.RunTestBatteryCommand",
+          "when": "editorLangId == powerquery",
+          "group": "1_powerquery@1"
+        }
+      ]
+    },
+    "taskDefinitions": [
+      {
+        "type": "powerquery",
+        "when": "isWindows && processExecutionSupported",
+        "required": [
+          "operation"
+        ],
+        "properties": {
+          "operation": {
+            "type": "string",
+            "description": "%extension.pqtest.taskDefinitions.properties.operation.description%"
+          },
+          "additionalArgs": {
+            "type": "array",
+            "description": "%extension.pqtest.taskDefinitions.properties.additionalArgs.description%"
+          },
+          "pathToConnector": {
+            "type": "string",
+            "description": "%extension.pqtest.taskDefinitions.properties.pathToConnector.description%"
+          },
+          "pathToQueryFile": {
+            "type": "string",
+            "description": "%extension.pqtest.taskDefinitions.properties.pathToQueryFile.description%"
+          },
+          "credentialTemplate": {
+            "type": "object",
+            "description": "%extension.pqtest.taskDefinitions.properties.credentialTemplate.description%"
+          }
+        }
+      }
+    ],
+    "views": {
+      "explorer": [
+        {
+          "id": "powerquery.sdk.tools.LifeCycleTaskTreeView",
+          "name": "%extension.pqtest.explorer.name%"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "powerquery.sdk.tools.LifeCycleTaskTreeView",
+        "contents": "%extension.pqtest.welcome.contents%"
+      }
     ]
   },
-  "scripts": {
-    "clean": "ts-node scripts/clean.ts",
-    "vscode:prepublish": "npm run package",
-    "install:pq-test-result-view": "cd webviews/pq-test-result-view && npm ci",
-    "postinstall": "npm run install:pq-test-result-view",
-    "compile": "webpack --mode development",
-    "watch": "webpack --mode development --watch",
-    "build:pq-test-result-view": "cd webviews/pq-test-result-view && npm run build",
-    "build": "npm run build:pq-test-result-view",
-    "copy:i18n": "ts-node scripts/addI18n.ts",
-    "package": "npm run clean && npm run build && webpack --mode production && npm run copy:i18n",
-    "compile-tests": "rimraf out && tsc -p . --outDir out",
-    "watch-tests": "rimraf out && tsc -p . -w --outDir out",
-    "pretest": "rimraf out && npm run compile-tests && npm run compile && npm run lint",
-    "audit": "npm audit --production",
-    "lint": "eslint src --ext ts",
-    "test:unit-test": "mocha -r ts-node/register -s 0 \"./unit-tests/**/*.spec.ts\"",
-    "test:e2e": "npm run compile-tests && ts-node scripts/test-e2e.ts",
-    "test": "npm run test:unit-test && npm run test:e2e",
-    "vsix": "npx vsce package --target win32-x64",
-    "code-install": "ts-node scripts/install.ts",
-    "prepublishOnly": "TypeScriptESBuild Source/**/*.ts"
+  "activationEvents": [
+    "onStartupFinished",
+    "onCommand:workbench.action.tasks.runTask",
+    "onCommand:powerquery.sdk.tools.CreateNewProjectCommand",
+    "onCommand:powerquery.sdk.tools.SeizePqTestCommand",
+    "onCommand:powerquery.sdk.tools.SetupCurrentWorkspaceCommand",
+    "onCommand:powerquery.sdk.tools.DeleteCredentialCommand",
+    "onCommand:powerquery.sdk.tools.DisplayExtensionInfoCommand",
+    "onCommand:powerquery.sdk.tools.ListCredentialCommand",
+    "onCommand:powerquery.sdk.tools.GenerateAndSetCredentialCommand",
+    "onCommand:powerquery.sdk.tools.RefreshCredentialCommand",
+    "onCommand:powerquery.sdk.tools.RunTestBatteryCommand",
+    "onCommand:powerquery.sdk.tools.TestConnectionCommand",
+    "onView:powerquery.sdk.tools.LifeCycleTaskTreeView",
+    "onWebviewPanel:powerquery.sdk.tools.ResultWebView",
+    "onLanguage:powerquery"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "!(src)/**/*.{ts}": [
+      "npm run lint -- --fix"
+    ]
   },
   "dependencies": {
     "axios": "1.6.0",
@@ -396,8 +394,8 @@
     "@types/glob": "8.1.0",
     "@types/gulp": "4.0.16",
     "@types/mocha": "10.0.3",
-    "@types/sinon": "10.0.20",
     "@types/node": "20.8.9",
+    "@types/sinon": "10.0.20",
     "@types/vscode": "1.83.1",
     "@typescript-eslint/eslint-plugin": "6.9.0",
     "@typescript-eslint/parser": "6.9.0",
@@ -405,7 +403,6 @@
     "@vscode/debugadapter-testsupport": "1.64.0",
     "@vscode/test-electron": "2.3.6",
     "chai": "4.3.10",
-    "sinon": "17.0.0",
     "eslint": "8.52.0",
     "eslint-config-prettier": "9.0.0",
     "eslint-plugin-license-header": "0.6.0",
@@ -418,33 +415,36 @@
     "mocha": "10.2.0",
     "prettier": "3.0.3",
     "rimraf": "5.0.5",
+    "sinon": "17.0.0",
     "ts-loader": "9.5.0",
     "ts-node": "10.9.1",
     "tsconfig-paths-webpack-plugin": "4.1.0",
     "typescript": "5.2.2",
+    "typescript-esbuild": "0.3.1",
     "vsce": "2.11.0",
     "vscode-extension-tester": "5.10.0",
     "vscode-nls-dev": "4.0.4",
     "webpack": "5.89.0",
-    "webpack-cli": "5.1.4",
-    "typescript-esbuild": "0.3.1"
+    "webpack-cli": "5.1.4"
   },
-  "lint-staged": {
-    "!(src)/**/*.{ts}": [
-      "npm run lint -- --fix"
-    ]
+  "extensionDependencies": [
+    "PowerQuery.vscode-powerquery"
+  ],
+  "engines": {
+    "node": ">=16.13.2 <17",
+    "npm": ">=8.5.0",
+    "vscode": "1.62.0"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "bugs": {
-    "url": "https://github.com/CodeEditorLand/CodeEditorLand/issues"
-  },
-  "type": "module",
-  "private": "false",
   "publishConfig": {
     "access": "public"
+  },
+  "icon": "etc/PQIcon_128.png",
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": false
+    }
+  },
+  "issues": {
+    "url": "https://github.com/microsoft/vscode-powerquery-sdk/issues"
   }
 }
