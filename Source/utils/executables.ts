@@ -9,34 +9,45 @@ import * as fs from "fs";
 import * as path from "path";
 import * as process from "process";
 
-export function findExecutable(exeName: string, extArr: string[] = [""]): string | undefined {
-    const envPath: string = process.env.PATH ?? "";
-    const pathDirectories: string[] = envPath.replace(/["]+/g, "").split(path.delimiter).filter(Boolean);
-    let result: string | undefined = undefined;
+export function findExecutable(
+	exeName: string,
+	extArr: string[] = [""]
+): string | undefined {
+	const envPath: string = process.env.PATH ?? "";
+	const pathDirectories: string[] = envPath
+		.replace(/["]+/g, "")
+		.split(path.delimiter)
+		.filter(Boolean);
+	let result: string | undefined = undefined;
 
-    pathDirectories.some((oneDirectory: string) =>
-        extArr.some((oneExt: string) => {
-            let maybeFsStat: fs.Stats | undefined = undefined;
+	pathDirectories.some((oneDirectory: string) =>
+		extArr.some((oneExt: string) => {
+			let maybeFsStat: fs.Stats | undefined = undefined;
 
-            try {
-                const thePath: string = path.join(oneDirectory, exeName + oneExt);
+			try {
+				const thePath: string = path.join(
+					oneDirectory,
+					exeName + oneExt
+				);
 
-                if (fs.existsSync(thePath)) {
-                    maybeFsStat = fs.statSync(path.join(oneDirectory, exeName + oneExt));
-                }
-            } catch (e) {
-                // noop
-            }
+				if (fs.existsSync(thePath)) {
+					maybeFsStat = fs.statSync(
+						path.join(oneDirectory, exeName + oneExt)
+					);
+				}
+			} catch (e) {
+				// noop
+			}
 
-            if (maybeFsStat?.isFile()) {
-                result = path.join(oneDirectory, exeName + oneExt);
+			if (maybeFsStat?.isFile()) {
+				result = path.join(oneDirectory, exeName + oneExt);
 
-                return true;
-            }
+				return true;
+			}
 
-            return false;
-        }),
-    );
+			return false;
+		})
+	);
 
-    return result;
+	return result;
 }

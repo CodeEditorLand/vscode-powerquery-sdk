@@ -14,11 +14,11 @@ import App from "./App";
 initializeIcons();
 
 window.addEventListener(
-    "contextmenu",
-    e => {
-        e.stopImmediatePropagation();
-    },
-    true,
+	"contextmenu",
+	(e) => {
+		e.stopImmediatePropagation();
+	},
+	true
 );
 
 ReactDom.render(<App />, document.querySelector("#root"));

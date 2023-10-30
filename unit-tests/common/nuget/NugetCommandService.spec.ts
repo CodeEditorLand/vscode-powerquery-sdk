@@ -16,76 +16,83 @@ import { tryRemoveDirectoryRecursively } from "../../../src/utils/files";
 
 const expect = chai.expect;
 const SdkPackageName = "Microsoft.PowerQuery.SdkTools";
-const InternalNugetFeed = "https://powerbi.pkgs.visualstudio.com/_packaging/PowerBiComponents/nuget/v3/index.json";
+const InternalNugetFeed =
+	"https://powerbi.pkgs.visualstudio.com/_packaging/PowerBiComponents/nuget/v3/index.json";
 
 describe("NugetCommandService unit testes", () => {
-    const nugetPath = findExecutable("nuget", [".exe", ""]);
+	const nugetPath = findExecutable("nuget", [".exe", ""]);
 
-    // disable these test cases for the ci due to auth config
-    if (nugetPath && process.env.CI !== "true") {
-        let oneTmpDir: string;
-        let nugetCommandService: NugetCommandService;
+	// disable these test cases for the ci due to auth config
+	if (nugetPath && process.env.CI !== "true") {
+		let oneTmpDir: string;
+		let nugetCommandService: NugetCommandService;
 
-        before(() => {
-            oneTmpDir = makeOneTmpDir();
-            nugetCommandService = new NugetCommandService(oneTmpDir);
-        });
+		before(() => {
+			oneTmpDir = makeOneTmpDir();
+			nugetCommandService = new NugetCommandService(oneTmpDir);
+		});
 
-        it("getPackageReleasedVersions v1", async () => {
-            const res = await nugetCommandService.getPackageReleasedVersions(
-                nugetPath,
-                InternalNugetFeed,
-                SdkPackageName,
-            );
+		it("getPackageReleasedVersions v1", async () => {
+			const res = await nugetCommandService.getPackageReleasedVersions(
+				nugetPath,
+				InternalNugetFeed,
+				SdkPackageName
+			);
 
-            expect(res.length).gt(1);
-        }).timeout(3e4);
+			expect(res.length).gt(1);
+		}).timeout(3e4);
 
-        it("downloadAndExtractNugetPackage v1", async () => {
-            const res = await nugetCommandService.getPackageReleasedVersions(
-                nugetPath,
-                InternalNugetFeed,
-                SdkPackageName,
-            );
+		it("downloadAndExtractNugetPackage v1", async () => {
+			const res = await nugetCommandService.getPackageReleasedVersions(
+				nugetPath,
+				InternalNugetFeed,
+				SdkPackageName
+			);
 
-            expect(res.length).gt(1);
-            const theVersion = res[0];
-            const theVersionStr = theVersion.toString();
+			expect(res.length).gt(1);
+			const theVersion = res[0];
+			const theVersionStr = theVersion.toString();
 
-            await nugetCommandService.downloadAndExtractNugetPackage(
-                nugetPath,
-                InternalNugetFeed,
-                SdkPackageName,
-                theVersionStr,
-            );
+			await nugetCommandService.downloadAndExtractNugetPackage(
+				nugetPath,
+				InternalNugetFeed,
+				SdkPackageName,
+				theVersionStr
+			);
 
-            expect(
-                fs.existsSync(
-                    path.resolve(
-                        oneTmpDir,
-                        ".nuget",
-                        `${SdkPackageName}.${theVersionStr}`,
-                        `Microsoft.PowerQuery.SdkTools.${theVersionStr}.nupkg`,
-                    ),
-                ),
-            ).true;
+			expect(
+				fs.existsSync(
+					path.resolve(
+						oneTmpDir,
+						".nuget",
+						`${SdkPackageName}.${theVersionStr}`,
+						`Microsoft.PowerQuery.SdkTools.${theVersionStr}.nupkg`
+					)
+				)
+			).true;
 
-            expect(
-                fs.existsSync(
-                    path.resolve(oneTmpDir, ".nuget", `${SdkPackageName}.${theVersionStr}`, "tools", "PQTest.exe"),
-                ),
-            ).true;
+			expect(
+				fs.existsSync(
+					path.resolve(
+						oneTmpDir,
+						".nuget",
+						`${SdkPackageName}.${theVersionStr}`,
+						"tools",
+						"PQTest.exe"
+					)
+				)
+			).true;
 
-            await tryRemoveDirectoryRecursively(oneTmpDir);
-        }).timeout(9e4);
+			await tryRemoveDirectoryRecursively(oneTmpDir);
+		}).timeout(9e4);
 
-        after(() => {
-            setTimeout(() => {
-                if (oneTmpDir) {
-                    void tryRemoveDirectoryRecursively(oneTmpDir);
-                    oneTmpDir = "";
-                }
-            }, 25);
-        });
-    }
+		after(() => {
+			setTimeout(() => {
+				if (oneTmpDir) {
+					void tryRemoveDirectoryRecursively(oneTmpDir);
+					oneTmpDir = "";
+				}
+			}, 25);
+		});
+	}
 });

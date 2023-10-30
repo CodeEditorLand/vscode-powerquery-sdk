@@ -18,84 +18,108 @@ import WebSocket from "ws";
 export type AnyEventListener = (type: string, callback: AnyFunction) => void;
 
 export type ExpectedEmitter =
-    | {
-          addEventListener?: AnyEventListener;
-          removeEventListener?: AnyEventListener;
-          addListener?: AnyEventListener;
-          removeListener?: AnyEventListener;
-          on?: AnyEventListener;
-          off?: AnyEventListener;
-      }
-    | WebSocket;
+	| {
+			addEventListener?: AnyEventListener;
+			removeEventListener?: AnyEventListener;
+			addListener?: AnyEventListener;
+			removeListener?: AnyEventListener;
+			on?: AnyEventListener;
+			off?: AnyEventListener;
+	  }
+	| WebSocket;
 
 export function makeEventAdder(
-    cancellationToken: CancellationToken,
-    emitter: ExpectedEmitter,
-    allParametersInArray: boolean = false,
+	cancellationToken: CancellationToken,
+	emitter: ExpectedEmitter,
+	allParametersInArray: boolean = false
 ): AnyEventListener {
-    const add: AnyFunction | undefined = emitter.addEventListener || emitter.addListener || emitter.on;
+	const add: AnyFunction | undefined =
+		emitter.addEventListener || emitter.addListener || emitter.on;
 
-    if (add === undefined) {
-        throw new Error("cannot register event listener");
-    }
+	if (add === undefined) {
+		throw new Error("cannot register event listener");
+	}
 
-    const remove: AnyFunction | undefined = emitter.removeEventListener || emitter.removeListener || emitter.off;
+	const remove: AnyFunction | undefined =
+		emitter.removeEventListener || emitter.removeListener || emitter.off;
 
-    const eventsAndListeners: (AnyEventListener | string)[] = [];
+	const eventsAndListeners: (AnyEventListener | string)[] = [];
 
-    let clean: AnyFunction = noop;
+	let clean: AnyFunction = noop;
 
-    if (remove) {
-        clean = once(() => {
-            for (let i: number = 0, n: number = eventsAndListeners.length; i < n; i += 2) {
-                remove.call(emitter, eventsAndListeners[i], eventsAndListeners[i + 1]);
-            }
-        });
+	if (remove) {
+		clean = once(() => {
+			for (
+				let i: number = 0, n: number = eventsAndListeners.length;
+				i < n;
+				i += 2
+			) {
+				remove.call(
+					emitter,
+					eventsAndListeners[i],
+					eventsAndListeners[i + 1]
+				);
+			}
+		});
 
-        void cancellationToken.promise.then(clean);
-    }
+		void cancellationToken.promise.then(clean);
+	}
 
-    return allParametersInArray
-        ? (eventName: string, cb: AnyFunction): void => {
-              function listener(): void {
-                  clean();
-                  const args: unknown[] = Array.prototype.slice.call(arguments);
-                  (args as any).name = eventName;
-                  cb(args);
-              }
+	return allParametersInArray
+		? (eventName: string, cb: AnyFunction): void => {
+				function listener(): void {
+					clean();
+					const args: unknown[] =
+						Array.prototype.slice.call(arguments);
+					(args as any).name = eventName;
+					cb(args);
+				}
 
-              eventsAndListeners.push(eventName, listener);
-              add.call(emitter, eventName, listener);
-          }
-        : (event: string, cb: AnyFunction): void => {
-              const listener: AnyEventListener = (arg: unknown) => {
-                  clean();
-                  cb(arg);
-              };
+				eventsAndListeners.push(eventName, listener);
+				add.call(emitter, eventName, listener);
+		  }
+		: (event: string, cb: AnyFunction): void => {
+				const listener: AnyEventListener = (arg: unknown) => {
+					clean();
+					cb(arg);
+				};
 
-              eventsAndListeners.push(event, listener);
-              add.call(emitter, event, listener);
-          };
+				eventsAndListeners.push(event, listener);
+				add.call(emitter, event, listener);
+		  };
 }
 
 export interface FromEventOption {
-    ignoreErrors?: boolean;
-    errorEventName?: string;
-    allParametersInArray?: boolean;
+	ignoreErrors?: boolean;
+	errorEventName?: string;
+	allParametersInArray?: boolean;
 }
 
-export const fromEvent: (emitter: ExpectedEmitter, event: string, opt?: FromEventOption) => Promise<any> = cancelable(
-    (cancellationToken: CancellationToken, emitter: ExpectedEmitter, event: string, opt: FromEventOption = {}) =>
-        new Promise((resolve: AnyFunction, reject: AnyFunction) => {
-            const add: AnyEventListener = makeEventAdder(cancellationToken, emitter, opt.allParametersInArray);
-            add(event, resolve);
+export const fromEvent: (
+	emitter: ExpectedEmitter,
+	event: string,
+	opt?: FromEventOption
+) => Promise<any> = cancelable(
+	(
+		cancellationToken: CancellationToken,
+		emitter: ExpectedEmitter,
+		event: string,
+		opt: FromEventOption = {}
+	) =>
+		new Promise((resolve: AnyFunction, reject: AnyFunction) => {
+			const add: AnyEventListener = makeEventAdder(
+				cancellationToken,
+				emitter,
+				opt.allParametersInArray
+			);
+			add(event, resolve);
 
-            if (!opt.ignoreErrors) {
-                const { errorEventName = "error" }: FromEventOption = opt;
+			if (!opt.ignoreErrors) {
+				const { errorEventName = "error" }: FromEventOption = opt;
 
-                if (errorEventName !== event) {
-                    add(errorEventName, reject);
-                }
-            }
-        }),
+				if (errorEventName !== event) {
+					add(errorEventName, reject);
+				}
+			}
+		})
 ) as unknown as any;

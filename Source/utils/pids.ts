@@ -14,36 +14,42 @@ import * as process from "process";
  * @param pid: number
  */
 export function pidIsRunning(pid: number): boolean {
-    try {
-        process.kill(pid, 0);
+	try {
+		process.kill(pid, 0);
 
-        return true;
-    } catch (e) {
-        return false;
-    }
+		return true;
+	} catch (e) {
+		return false;
+	}
 }
 
 export function delay(ms: number): Promise<void> {
-    return new Promise((resolve: (value: void | PromiseLike<void>) => void) => setTimeout(resolve, ms));
+	return new Promise((resolve: (value: void | PromiseLike<void>) => void) =>
+		setTimeout(resolve, ms)
+	);
 }
 
 export function isPortBusy(port: number): Promise<boolean> {
-    return new Promise((resolve: (value: boolean | PromiseLike<boolean>) => void) => {
-        const theServer: net.Server = net.createServer((socket: net.Socket) => {
-            // write a space char to activate the socket, do not remove it
-            socket.write(" ");
-            socket.pipe(socket);
-        });
+	return new Promise(
+		(resolve: (value: boolean | PromiseLike<boolean>) => void) => {
+			const theServer: net.Server = net.createServer(
+				(socket: net.Socket) => {
+					// write a space char to activate the socket, do not remove it
+					socket.write(" ");
+					socket.pipe(socket);
+				}
+			);
 
-        theServer.on("error", (_err: Error) => {
-            resolve(true);
-        });
+			theServer.on("error", (_err: Error) => {
+				resolve(true);
+			});
 
-        theServer.on("listening", () => {
-            theServer.close();
-            resolve(false);
-        });
+			theServer.on("listening", () => {
+				theServer.close();
+				resolve(false);
+			});
 
-        theServer.listen(port, "127.0.0.1");
-    });
+			theServer.listen(port, "127.0.0.1");
+		}
+	);
 }

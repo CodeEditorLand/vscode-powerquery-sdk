@@ -7,8 +7,12 @@
 
 import { isPromise } from "./isPromise";
 
-export type DidResolvedResult<T> = (value: T) => T extends Promise<unknown> ? T : Promise<T>;
+export type DidResolvedResult<T> = (
+	value: T
+) => T extends Promise<unknown> ? T : Promise<T>;
 
 export function doResolve<T>(value: T): DidResolvedResult<T> {
-    return (isPromise(value) ? value : Promise.resolve(value)) as unknown as DidResolvedResult<T>;
+	return (isPromise(value)
+		? value
+		: Promise.resolve(value)) as unknown as DidResolvedResult<T>;
 }

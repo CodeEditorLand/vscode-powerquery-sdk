@@ -5,7 +5,10 @@
  * LICENSE file in the root of this projects source tree.
  */
 
-export const DONE: IteratorReturnResult<undefined> = { done: true, value: undefined };
+export const DONE: IteratorReturnResult<undefined> = {
+	done: true,
+	value: undefined,
+};
 
 export type NumberIteratorResult = IteratorResult<number, undefined>;
 export type IterableNumbers = () => NumberIteratorResult;
@@ -15,55 +18,59 @@ export type NumberGenerator = () => NumberIterator;
 const toMsMapper: NumberMapper = (x: number) => Math.floor(x * 1e3);
 
 export class NumberIterator implements Iterator<number, undefined, undefined> {
-    next: IterableNumbers;
+	next: IterableNumbers;
 
-    constructor(_next: IterableNumbers) {
-        this.next = _next;
-    }
+	constructor(_next: IterableNumbers) {
+		this.next = _next;
+	}
 
-    [Symbol.iterator](): Iterator<number, undefined, undefined> {
-        return this;
-    }
+	[Symbol.iterator](): Iterator<number, undefined, undefined> {
+		return this;
+	}
 
-    map(fn: NumberMapper): NumberIterator {
-        return new NumberIterator(() => {
-            const cursor: NumberIteratorResult = this.next();
+	map(fn: NumberMapper): NumberIterator {
+		return new NumberIterator(() => {
+			const cursor: NumberIteratorResult = this.next();
 
-            if (cursor.done) {
-                return cursor;
-            }
+			if (cursor.done) {
+				return cursor;
+			}
 
-            return {
-                done: false,
-                value: fn(cursor.value),
-            };
-        });
-    }
+			return {
+				done: false,
+				value: fn(cursor.value),
+			};
+		});
+	}
 
-    addNoise(factor: number = 0.1): NumberIterator {
-        return this.map((value: number) => value * (1 + (Math.random() - 0.5) * factor));
-    }
+	addNoise(factor: number = 0.1): NumberIterator {
+		return this.map(
+			(value: number) => value * (1 + (Math.random() - 0.5) * factor)
+		);
+	}
 
-    toMs(): NumberIterator {
-        return this.map(toMsMapper);
-    }
+	toMs(): NumberIterator {
+		return this.map(toMsMapper);
+	}
 
-    clamp(min: number, max: number): NumberIterator {
-        // eslint-disable-next-line no-nested-ternary
-        return this.map((value: number) => (value < min ? min : value > max ? max : value));
-    }
+	clamp(min: number, max: number): NumberIterator {
+		// eslint-disable-next-line no-nested-ternary
+		return this.map((value: number) =>
+			value < min ? min : value > max ? max : value
+		);
+	}
 
-    take(n: number): NumberIterator {
-        let i: number = 0;
+	take(n: number): NumberIterator {
+		let i: number = 0;
 
-        return new NumberIterator(() => {
-            if (i < n) {
-                ++i;
+		return new NumberIterator(() => {
+			if (i < n) {
+				++i;
 
-                return this.next();
-            }
+				return this.next();
+			}
 
-            return DONE;
-        });
-    }
+			return DONE;
+		});
+	}
 }

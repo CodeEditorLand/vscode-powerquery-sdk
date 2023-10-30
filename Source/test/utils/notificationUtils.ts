@@ -12,13 +12,22 @@ import { Workbench } from "vscode-extension-tester";
 const expect = chai.expect;
 
 export module VscNotifications {
-    export async function assetNotificationsExisting(workbench?: Workbench): Promise<void> {
-        const notifications = workbench ? await workbench.getNotifications() : await new Workbench().getNotifications();
-        expect(notifications.length).gt(0);
-    }
+	export async function assetNotificationsExisting(
+		workbench?: Workbench
+	): Promise<void> {
+		const notifications = workbench
+			? await workbench.getNotifications()
+			: await new Workbench().getNotifications();
+		expect(notifications.length).gt(0);
+	}
 
-    export async function assetNotificationsLength(length: number, workbench?: Workbench): Promise<void> {
-        const notifications = workbench ? await workbench.getNotifications() : await new Workbench().getNotifications();
-        expect(notifications.length).eq(length);
-    }
+	export async function assetNotificationsLength(
+		length: number,
+		workbench?: Workbench
+	): Promise<void> {
+		const notifications = workbench
+			? await workbench.getNotifications()
+			: await new Workbench().getNotifications();
+		expect(notifications.length).eq(length);
+	}
 }

@@ -8,18 +8,18 @@
 import { AnyFunction } from "./types";
 
 export function setFunctionNameAndLength<T = AnyFunction>(
-    fn: T,
-    name: string,
-    length: number,
+	fn: T,
+	name: string,
+	length: number
 ): T & { length: number; name: string } {
-    return Object.defineProperties(fn, {
-        length: {
-            configurable: true,
-            value: length > 0 ? length : 0,
-        },
-        name: {
-            configurable: true,
-            value: name,
-        },
-    }) as T & { length: number; name: string };
+	return Object.defineProperties(fn, {
+		length: {
+			configurable: true,
+			value: length > 0 ? length : 0,
+		},
+		name: {
+			configurable: true,
+			value: name,
+		},
+	}) as T & { length: number; name: string };
 }

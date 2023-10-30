@@ -16,23 +16,23 @@ const expect = chai.expect;
 const emitter: EventEmitter = new EventEmitter();
 
 describe("Promises::fromEvents", () => {
-    it("Nodejs EventEmitter: success event", () => {
-        const promise = fromEvents(emitter, ["yoo", "ha"]);
-        emitter.emit("yoo", "arg1", "arg2");
+	it("Nodejs EventEmitter: success event", () => {
+		const promise = fromEvents(emitter, ["yoo", "ha"]);
+		emitter.emit("yoo", "arg1", "arg2");
 
-        return promise.then(value => {
-            expect(value.name).eq("yoo");
-            expect(value).eql(["arg1", "arg2"]);
-        });
-    });
+		return promise.then((value) => {
+			expect(value.name).eq("yoo");
+			expect(value).eql(["arg1", "arg2"]);
+		});
+	});
 
-    it("Nodejs EventEmitter: error event", () => {
-        const promise = fromEvents(emitter, ["yoo", "ha"], ["oops"]);
-        emitter.emit("oops", "errArg1", "errArg2");
+	it("Nodejs EventEmitter: error event", () => {
+		const promise = fromEvents(emitter, ["yoo", "ha"], ["oops"]);
+		emitter.emit("oops", "errArg1", "errArg2");
 
-        return promise.catch(value => {
-            expect(value.name).eq("oops");
-            expect(value).eql(["errArg1", "errArg2"]);
-        });
-    });
+		return promise.catch((value) => {
+			expect(value.name).eq("oops");
+			expect(value).eql(["errArg1", "errArg2"]);
+		});
+	});
 });
