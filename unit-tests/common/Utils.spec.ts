@@ -14,11 +14,11 @@ import { tryRemoveDirectoryRecursively } from "../../src/utils/files";
 const expect = chai.expect;
 
 describe("Utils unit testes", () => {
-	it("Create a tmp directory", async () => {
-		const oneTmpDir = makeOneTmpDir();
+    it("Create a tmp directory", async () => {
+        const oneTmpDir = makeOneTmpDir();
 
-		expect(fs.existsSync(oneTmpDir)).true;
+        expect(fs.existsSync(oneTmpDir)).true;
 
-		await tryRemoveDirectoryRecursively(oneTmpDir);
-	});
+        await tryRemoveDirectoryRecursively(oneTmpDir);
+    });
 });

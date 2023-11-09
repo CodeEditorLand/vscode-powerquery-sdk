@@ -1,7 +1,7 @@
 {
-	"common.dismiss.label": "Fermer",
-	"common.error.label": "Erreur",
-	"testBatteryResView.Table.Output.Title": "Sortie",
-	"testBatteryResView.Table.Output.Summary": "Résumé",
-	"testBatteryResView.Table.Output.DataSource": "Source de données"
+  "common.dismiss.label": "Fermer",
+  "common.error.label": "Erreur",
+  "testBatteryResView.Table.Output.Title": "Sortie",
+  "testBatteryResView.Table.Output.Summary": "Résumé",
+  "testBatteryResView.Table.Output.DataSource": "Source de données"
 }

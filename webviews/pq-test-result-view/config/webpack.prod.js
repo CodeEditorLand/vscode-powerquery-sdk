@@ -20,23 +20,18 @@ const commonConfig = require("./webpack.common");
 // const packageJson = require("../package.json");
 
 const prodConfig = {
-	mode: "production",
-	output: {
-		path: paths.appBuild,
-		// filename: "[name].[contenthash:8].js",
-		// since we host it from the
-		filename: "[name].js",
-	},
-	plugins: [
-		new CopyPlugin({
-			patterns: [
-				{
-					from: path.resolve(paths.appPublic, "i18n"),
-					to: path.resolve(paths.appBuild, "i18n"),
-				},
-			],
-		}),
-	],
+    mode: "production",
+    output: {
+        path: paths.appBuild,
+        // filename: "[name].[contenthash:8].js",
+        // since we host it from the
+        filename: "[name].js",
+    },
+    plugins: [
+        new CopyPlugin({
+            patterns: [{ from: path.resolve(paths.appPublic, "i18n"), to: path.resolve(paths.appBuild, "i18n") }],
+        }),
+    ],
 };
 
 module.exports = merge(commonConfig, prodConfig);

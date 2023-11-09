@@ -12,8 +12,7 @@ Build the project and create the vsix installer (`npx vsce package`):
 npm run vsix
 ```
 
-Install the extension from the command line
-(`code --install-extension <pqsdk.vsix>`):
+Install the extension from the command line (`code --install-extension <pqsdk.vsix>`):
 
 ```msdos
 npm run code-install

@@ -1,7 +1,7 @@
 {
-	"common.dismiss.label": "Fechar",
-	"common.error.label": "Erro",
-	"testBatteryResView.Table.Output.Title": "Saída",
-	"testBatteryResView.Table.Output.Summary": "Resumo",
-	"testBatteryResView.Table.Output.DataSource": "DataSource"
+  "common.dismiss.label": "Fechar",
+  "common.error.label": "Erro",
+  "testBatteryResView.Table.Output.Title": "Saída",
+  "testBatteryResView.Table.Output.Summary": "Resumo",
+  "testBatteryResView.Table.Output.DataSource": "DataSource"
 }

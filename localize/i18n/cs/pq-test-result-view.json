@@ -1,7 +1,7 @@
 {
-	"common.dismiss.label": "Zavřít",
-	"common.error.label": "Chyba",
-	"testBatteryResView.Table.Output.Title": "Výstup",
-	"testBatteryResView.Table.Output.Summary": "Souhrn",
-	"testBatteryResView.Table.Output.DataSource": "Zdroj dat"
+  "common.dismiss.label": "Zavřít",
+  "common.error.label": "Chyba",
+  "testBatteryResView.Table.Output.Title": "Výstup",
+  "testBatteryResView.Table.Output.Summary": "Souhrn",
+  "testBatteryResView.Table.Output.DataSource": "Zdroj dat"
 }

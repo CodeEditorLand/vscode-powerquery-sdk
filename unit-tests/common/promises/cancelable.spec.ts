@@ -15,21 +15,20 @@ import { noop } from "../../../src/common/promises/noop";
 const expect = chai.expect;
 
 describe("Promises::cancelable", () => {
-	it("do not replace the existing cancel token", () => {
-		const token = new CancellationToken(noop);
-		const spy = sinon.spy();
-		cancelable(spy)(token, "yoo", "ha");
-		expect(spy.calledOnceWith(token, "yoo", "ha")).true;
-	});
+    it("do not replace the existing cancel token", () => {
+        const token = new CancellationToken(noop);
+        const spy = sinon.spy();
+        cancelable(spy)(token, "yoo", "ha");
+        expect(spy.calledOnceWith(token, "yoo", "ha")).true;
+    });
 
-	it("inject an existing cancel token", () => {
-		const token = new CancellationToken(noop);
-		const callerStub = sinon.stub().returns(Promise.resolve());
-		const spy = sinon.spy(callerStub);
-		cancelable(spy)(token, "yoo", "ha");
-		expect(spy.calledOnce).true;
-		const spiedFirstCall = spy.getCall(0);
-		expect(CancellationToken.isCancellationToken(spiedFirstCall.firstArg))
-			.true;
-	});
+    it("inject an existing cancel token", () => {
+        const token = new CancellationToken(noop);
+        const callerStub = sinon.stub().returns(Promise.resolve());
+        const spy = sinon.spy(callerStub);
+        cancelable(spy)(token, "yoo", "ha");
+        expect(spy.calledOnce).true;
+        const spiedFirstCall = spy.getCall(0);
+        expect(CancellationToken.isCancellationToken(spiedFirstCall.firstArg)).true;
+    });
 });
