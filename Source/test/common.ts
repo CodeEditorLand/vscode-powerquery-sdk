@@ -30,29 +30,19 @@ export const extensionPublisher: string = rootPackageJson.publisher;
 export const homeDirectory = os.homedir();
 export const extensionDevelopmentPath = path.resolve(__dirname, "../../../");
 export const extensionInstalledDirectory = path.join(
-	homeDirectory,
-	".vscode",
-	"extensions",
-	`${extensionPublisher.toLowerCase()}.${extensionId.toLowerCase()}-${extensionVersion.toLowerCase()}`
+    homeDirectory,
+    ".vscode",
+    "extensions",
+    `${extensionPublisher.toLowerCase()}.${extensionId.toLowerCase()}-${extensionVersion.toLowerCase()}`,
 );
 
 export const NugetBaseFolderName: string = ExtensionConstants.NugetBaseFolder;
 
-export const NugetPackagesDirectory: string = path.join(
-	extensionInstalledDirectory,
-	NugetBaseFolderName
-);
+export const NugetPackagesDirectory: string = path.join(extensionInstalledDirectory, NugetBaseFolderName);
 
 export const PqTestSubPath: string[] = ExtensionConstants.PqTestSubPath;
-export const buildPqSdkSubPath: (version: string) => string[] = (
-	version: string
-) =>
-	ExtensionConstants.buildNugetPackageSubPath(
-		ExtensionConstants.InternalMsftPqSdkToolsNugetName,
-		version
-	);
+export const buildPqSdkSubPath: (version: string) => string[] = (version: string) =>
+    ExtensionConstants.buildNugetPackageSubPath(ExtensionConstants.InternalMsftPqSdkToolsNugetName, version);
 
-export const PublicMsftPqSdkToolsNugetName: string =
-	ExtensionConstants.PublicMsftPqSdkToolsNugetName;
-export const MaximumPqTestNugetVersion: string =
-	ExtensionConstants.MaximumPqTestNugetVersion;
+export const PublicMsftPqSdkToolsNugetName: string = ExtensionConstants.PublicMsftPqSdkToolsNugetName;
+export const MaximumPqTestNugetVersion: string = ExtensionConstants.MaximumPqTestNugetVersion;

@@ -6,6 +6,6 @@
  */
 
 export function noop(): void {
-	// noop
-	// I am a lovely noop function, do not remove me
+    // noop
+    // I am a lovely noop function, do not remove me
 }

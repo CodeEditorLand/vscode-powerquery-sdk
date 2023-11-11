@@ -17,70 +17,51 @@ import { delay } from "../../utils/pids";
 const expect = chai.expect;
 
 export module ConnectorProjects {
-	export async function createOneNewExtensionProject(
-		workbench: Workbench,
-		newExtensionName: string,
-		targetDirectory: string
-	): Promise<void> {
-		const createNewProjectCommandTitle =
-			rootI18n["extension.pqtest.CreateNewProjectCommand.title"];
+    export async function createOneNewExtensionProject(
+        workbench: Workbench,
+        newExtensionName: string,
+        targetDirectory: string,
+    ): Promise<void> {
+        const createNewProjectCommandTitle = rootI18n["extension.pqtest.CreateNewProjectCommand.title"];
 
-		await workbench.executeCommand(
-			`${defaultPqCommandCategory}: ${createNewProjectCommandTitle}`
-		);
+        await workbench.executeCommand(`${defaultPqCommandCategory}: ${createNewProjectCommandTitle}`);
 
-		// InputBox.
-		const inputBox = await InputBox.create();
-		await inputBox.setText(newExtensionName);
-		await inputBox.sendKeys(Key.ENTER);
-		await delay(250);
-		await inputBox.sendKeys(Key.chord(Key.CONTROL, "A"));
-		await delay(250);
-		await inputBox.sendKeys(targetDirectory);
-		await inputBox.sendKeys(Key.ENTER);
+        // InputBox.
+        const inputBox = await InputBox.create();
+        await inputBox.setText(newExtensionName);
+        await inputBox.sendKeys(Key.ENTER);
+        await delay(250);
+        await inputBox.sendKeys(Key.chord(Key.CONTROL, "A"));
+        await delay(250);
+        await inputBox.sendKeys(targetDirectory);
+        await inputBox.sendKeys(Key.ENTER);
 
-		await delay(7e3);
-	}
+        await delay(7e3);
+    }
 
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	export function getVscSettings(
-		newExtensionName: string,
-		targetDirectory: string
-	): any | undefined {
-		const settingPath = path.join(
-			targetDirectory,
-			newExtensionName,
-			".vscode",
-			"settings.json"
-		);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    export function getVscSettings(newExtensionName: string, targetDirectory: string): any | undefined {
+        const settingPath = path.join(targetDirectory, newExtensionName, ".vscode", "settings.json");
 
-		const settingJsonContent = fs.readFileSync(settingPath, {
-			encoding: "utf8",
-		});
+        const settingJsonContent = fs.readFileSync(settingPath, { encoding: "utf8" });
 
-		return JSON.parse(settingJsonContent);
-	}
+        return JSON.parse(settingJsonContent);
+    }
 
-	export function assertNewlyCreatedWorkspaceSettingsIntact(
-		newExtensionName: string,
-		targetDirectory: string
-	): void {
-		const currentSdkSettings = ConnectorProjects.getVscSettings(
-			newExtensionName,
-			targetDirectory
-		);
+    export function assertNewlyCreatedWorkspaceSettingsIntact(newExtensionName: string, targetDirectory: string): void {
+        const currentSdkSettings = ConnectorProjects.getVscSettings(newExtensionName, targetDirectory);
 
-		expect(currentSdkSettings["powerquery.sdk.defaultQueryFile"]).eq(
-			"${workspaceFolder}\\${workspaceFolderBasename}.query.pq"
-		);
+        expect(currentSdkSettings["powerquery.sdk.defaultQueryFile"]).eq(
+            "${workspaceFolder}\\${workspaceFolderBasename}.query.pq",
+        );
 
-		expect(currentSdkSettings["powerquery.sdk.defaultExtension"]).eq(
-			"${workspaceFolder}\\bin\\AnyCPU\\Debug\\${workspaceFolderBasename}.mez"
-		);
+        expect(currentSdkSettings["powerquery.sdk.defaultExtension"]).eq(
+            "${workspaceFolder}\\bin\\AnyCPU\\Debug\\${workspaceFolderBasename}.mez",
+        );
 
-		// assert we got SDK populated correctly when needed
-		if (currentSdkSettings["powerquery.general.mode"]) {
-			expect(currentSdkSettings["powerquery.general.mode"]).eq("SDK");
-		}
-	}
+        // assert we got SDK populated correctly when needed
+        if (currentSdkSettings["powerquery.general.mode"]) {
+            expect(currentSdkSettings["powerquery.general.mode"]).eq("SDK");
+        }
+    }
 }

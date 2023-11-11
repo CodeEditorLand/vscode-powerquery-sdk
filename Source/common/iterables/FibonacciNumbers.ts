@@ -8,17 +8,17 @@
 import { NumberIterator } from "./NumberIterator";
 
 export const fibonacciNumbers: () => NumberIterator = () => {
-	let curVal: number = 1;
-	let nextVal: number = 1;
+    let curVal: number = 1;
+    let nextVal: number = 1;
 
-	return new NumberIterator(() => {
-		const value: number = curVal;
-		curVal = nextVal;
-		nextVal += value;
+    return new NumberIterator(() => {
+        const value: number = curVal;
+        curVal = nextVal;
+        nextVal += value;
 
-		return {
-			done: false,
-			value,
-		};
-	});
+        return {
+            done: false,
+            value,
+        };
+    });
 };

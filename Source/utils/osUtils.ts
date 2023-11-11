@@ -12,10 +12,10 @@ import * as path from "path";
 import { makeId } from "./ids";
 
 export function makeOneTmpDir(): string {
-	const tmpDir: string = os.tmpdir();
-	const tmpDirBaseName: string = makeId(7);
-	const targetDir: string = path.join(tmpDir, tmpDirBaseName);
-	fs.mkdirSync(targetDir);
+    const tmpDir: string = os.tmpdir();
+    const tmpDirBaseName: string = makeId(7);
+    const targetDir: string = path.join(tmpDir, tmpDirBaseName);
+    fs.mkdirSync(targetDir);
 
-	return targetDir;
+    return targetDir;
 }

@@ -6,17 +6,17 @@
  */
 
 export class BaseError extends Error {
-	constructor(message: string) {
-		super(message);
-	}
+    constructor(message: string) {
+        super(message);
+    }
 
-	/**
-	 * Capture current stack trace of the caller
-	 */
-	captureStackTrace(): string | undefined {
-		const container: Error = new Error();
-		this.stack = container.stack;
+    /**
+     * Capture current stack trace of the caller
+     */
+    captureStackTrace(): string | undefined {
+        const container: Error = new Error();
+        this.stack = container.stack;
 
-		return this.stack;
-	}
+        return this.stack;
+    }
 }

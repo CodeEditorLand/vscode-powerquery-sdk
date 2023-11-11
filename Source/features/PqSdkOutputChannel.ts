@@ -13,76 +13,65 @@ import { IDisposable } from "../common/Disposable";
 
 // we can do write to file or log according to a log_level over here
 export class PqSdkOutputChannel implements OutputChannel, IDisposable {
-	_channel: vscode.OutputChannel;
+    _channel: vscode.OutputChannel;
 
-	readonly name: string = ExtensionConstants.OutputChannelName;
+    readonly name: string = ExtensionConstants.OutputChannelName;
 
-	constructor() {
-		this._channel = vscode.window.createOutputChannel(
-			ExtensionConstants.OutputChannelName
-		);
-	}
+    constructor() {
+        this._channel = vscode.window.createOutputChannel(ExtensionConstants.OutputChannelName);
+    }
 
-	replace(value: string): void {
-		this._channel.replace(value);
-	}
+    replace(value: string): void {
+        this._channel.replace(value);
+    }
 
-	dispose(): void {
-		this._channel.dispose();
-	}
+    dispose(): void {
+        this._channel.dispose();
+    }
 
-	append(value: string): void {
-		this._channel.append(value);
-	}
+    append(value: string): void {
+        this._channel.append(value);
+    }
 
-	appendLine(value: string): void {
-		this._channel.appendLine(value);
-	}
+    appendLine(value: string): void {
+        this._channel.appendLine(value);
+    }
 
-	public appendLineWithTimeStamp(line: string): void {
-		const now: Date = new Date();
-		this.appendLine(`[${now.toLocaleTimeString()}]\t${line}`);
-	}
+    public appendLineWithTimeStamp(line: string): void {
+        const now: Date = new Date();
+        this.appendLine(`[${now.toLocaleTimeString()}]\t${line}`);
+    }
 
-	public appendDebugLine(value: string): void {
-		this.appendLineWithTimeStamp(
-			`[${extensionI18n["PQSdk.common.logLevel.Debug"]}]\t${value}`
-		);
-	}
+    public appendDebugLine(value: string): void {
+        this.appendLineWithTimeStamp(`[${extensionI18n["PQSdk.common.logLevel.Debug"]}]\t${value}`);
+    }
 
-	public appendTraceLine(_value: string): void {
-		// // temporarily turn this off as it is too noisy
-		// this.appendLineWithTimeStamp(`[${extensionI18n["PQSdk.common.logLevel.Trace"]}]\t${_value}`);
-	}
+    public appendTraceLine(_value: string): void {
+        // // temporarily turn this off as it is too noisy
+        // this.appendLineWithTimeStamp(`[${extensionI18n["PQSdk.common.logLevel.Trace"]}]\t${_value}`);
+    }
 
-	public appendInfoLine(value: string): void {
-		this.appendLineWithTimeStamp(
-			`[${extensionI18n["PQSdk.common.logLevel.Info"]}]\t${value}`
-		);
-	}
+    public appendInfoLine(value: string): void {
+        this.appendLineWithTimeStamp(`[${extensionI18n["PQSdk.common.logLevel.Info"]}]\t${value}`);
+    }
 
-	public appendErrorLine(value: string): void {
-		this.appendLineWithTimeStamp(
-			`[${extensionI18n["PQSdk.common.logLevel.Error"]}]\t${value}`
-		);
-	}
+    public appendErrorLine(value: string): void {
+        this.appendLineWithTimeStamp(`[${extensionI18n["PQSdk.common.logLevel.Error"]}]\t${value}`);
+    }
 
-	clear(): void {
-		this._channel.clear();
-	}
+    clear(): void {
+        this._channel.clear();
+    }
 
-	hide(): void {
-		this._channel.hide();
-	}
+    hide(): void {
+        this._channel.hide();
+    }
 
-	show(preserveFocus?: boolean): void;
-	show(column?: ViewColumn, preserveFocus?: boolean): void;
-	show(...args: unknown[]): void {
-		this._channel.show(...(args as Parameters<OutputChannel["show"]>));
-	}
+    show(preserveFocus?: boolean): void;
+    show(column?: ViewColumn, preserveFocus?: boolean): void;
+    show(...args: unknown[]): void {
+        this._channel.show(...(args as Parameters<OutputChannel["show"]>));
+    }
 }
 
-export type PqSdkOutputChannelLight = Pick<
-	PqSdkOutputChannel,
-	"appendInfoLine" | "appendErrorLine"
->;
+export type PqSdkOutputChannelLight = Pick<PqSdkOutputChannel, "appendInfoLine" | "appendErrorLine">;

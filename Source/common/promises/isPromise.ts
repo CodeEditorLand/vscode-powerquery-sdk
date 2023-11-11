@@ -6,5 +6,4 @@
  */
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const isPromise: (value: unknown) => boolean = (value: any) =>
-	value != null && typeof value.then === "function";
+export const isPromise: (value: unknown) => boolean = (value: any) => value != null && typeof value.then === "function";

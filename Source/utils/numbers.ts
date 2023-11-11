@@ -6,11 +6,11 @@
  */
 
 export function convertStringToInteger(str: string): number | undefined {
-	const oneNum: number = Number.parseInt(str, 10);
+    const oneNum: number = Number.parseInt(str, 10);
 
-	if (Number.isInteger(oneNum)) {
-		return oneNum;
-	}
+    if (Number.isInteger(oneNum)) {
+        return oneNum;
+    }
 
-	return undefined;
+    return undefined;
 }
