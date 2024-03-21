@@ -1,46 +1,14 @@
 {
-	"name": "vscode-powerquery-sdk",
-	"displayName": "Power Query SDK",
-	"version": "0.0.1",
-	"private": false,
-	"description": "Power Query Connector SDK",
-	"homepage": "https://github.com/CodeEditorLand/Foundation#readme",
-	"bugs": {
-		"url": "https://github.com/CodeEditorLand/Foundation/issues"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/CodeEditorLand/Foundation.git"
-	},
-	"license": "SEE LICENSE IN LICENSE",
-	"author": {
-		"name": "Playform",
-		"email": "Hello@Playform.Cloud",
-		"url": "https://playform.cloud"
-	},
-	"type": "module",
-	"main": "./dist/extension.js",
-	"scripts": {
-		"audit": "npm audit --omit=dev",
-		"build": "npm run build:pq-test-result-view",
-		"build:pq-test-result-view": "cd webviews/pq-test-result-view && npm run build",
-		"clean": "ts-node scripts/clean.ts",
-		"code-install": "ts-node scripts/install.ts",
-		"compile": "webpack --mode development",
-		"compile-tests": "rimraf out && tsc -p . --outDir out",
-		"copy:i18n": "ts-node scripts/addI18n.ts",
-		"postinstall": "npm run install:pq-test-result-view",
-		"install:pq-test-result-view": "cd webviews/pq-test-result-view && npm ci",
-		"package": "npm run clean && npm run build && webpack --mode production && npm run copy:i18n",
-		"prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
-		"test-ui": "node ./out/src/test/runTest.js",
-		"test:e2e": "npm run compile-tests && npm run test-ui",
-		"test:e2e:old": "npm run compile-tests && ts-node scripts/test-e2e.ts",
-		"test:unit-test": "mocha -r ts-node/register -s 0 \"./unit-tests/**/*.spec.ts\"",
-		"vscode:prepublish": "npm run package",
-		"vsix": "npx vsce package --target win32-x64",
-		"watch": "webpack --mode development --watch",
-		"watch-tests": "rimraf out && tsc -p . -w --outDir out"
+	"activationEvents": [
+		"onStartupFinished",
+		"onCommand:workbench.action.tasks.runTask",
+		"onWebviewPanel:powerquery.sdk.tools.ResultWebView",
+		"onLanguage:powerquery"
+	],
+	"capabilities": {
+		"untrustedWorkspaces": {
+			"supported": false
+		}
 	},
 	"contributes": {
 		"commands": [
@@ -351,27 +319,12 @@
 			}
 		]
 	},
-	"activationEvents": [
-		"onStartupFinished",
-		"onCommand:workbench.action.tasks.runTask",
-		"onWebviewPanel:powerquery.sdk.tools.ResultWebView",
-		"onLanguage:powerquery"
-	],
-	"husky": {
-		"hooks": {
-			"pre-commit": "lint-staged"
-		}
-	},
-	"lint-staged": {
-		"!(src)/**/*.{ts}": [
-			"npm run lint -- --fix"
-		]
-	},
 	"dependencies": {
 		"axios": "^1.6.7",
 		"node-stream-zip": "^1.15.0",
 		"vscode-jsonrpc": "^8.2.0"
 	},
+	"description": "Power Query Connector SDK",
 	"devDependencies": {
 		"@types/chai": "^4.3.12",
 		"@types/glob": "^8.1.0",
@@ -402,19 +355,47 @@
 		"webpack": "^5.90.3",
 		"webpack-cli": "^4.10.0"
 	},
+	"displayName": "Power Query SDK",
 	"extensionDependencies": [
 		"PowerQuery.vscode-powerquery"
 	],
-	"publishConfig": {
-		"access": "public"
-	},
-	"icon": "etc/PQIcon_128.png",
-	"capabilities": {
-		"untrustedWorkspaces": {
-			"supported": false
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged"
 		}
 	},
+	"icon": "etc/PQIcon_128.png",
 	"issues": {
 		"url": "https://github.com/microsoft/vscode-powerquery-sdk/issues"
-	}
+	},
+	"lint-staged": {
+		"!(src)/**/*.{ts}": [
+			"npm run lint -- --fix"
+		]
+	},
+	"main": "./dist/extension.js",
+	"name": "vscode-powerquery-sdk",
+	"scripts": {
+		"audit": "npm audit --omit=dev",
+		"build": "npm run build:pq-test-result-view",
+		"build:pq-test-result-view": "cd webviews/pq-test-result-view && npm run build",
+		"clean": "ts-node scripts/clean.ts",
+		"code-install": "ts-node scripts/install.ts",
+		"compile": "webpack --mode development",
+		"compile-tests": "rimraf out && tsc -p . --outDir out",
+		"copy:i18n": "ts-node scripts/addI18n.ts",
+		"install:pq-test-result-view": "cd webviews/pq-test-result-view && npm ci",
+		"package": "npm run clean && npm run build && webpack --mode production && npm run copy:i18n",
+		"postinstall": "npm run install:pq-test-result-view",
+		"prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
+		"test-ui": "node ./out/src/test/runTest.js",
+		"test:e2e": "npm run compile-tests && npm run test-ui",
+		"test:e2e:old": "npm run compile-tests && ts-node scripts/test-e2e.ts",
+		"test:unit-test": "mocha -r ts-node/register -s 0 \"./unit-tests/**/*.spec.ts\"",
+		"vscode:prepublish": "npm run package",
+		"vsix": "npx vsce package --target win32-x64",
+		"watch": "webpack --mode development --watch",
+		"watch-tests": "rimraf out && tsc -p . -w --outDir out"
+	},
+	"type": "module"
 }
