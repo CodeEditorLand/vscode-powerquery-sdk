@@ -368,23 +368,23 @@
 		]
 	},
 	"dependencies": {
-		"axios": "^1.6.7",
-		"node-stream-zip": "^1.15.0"
+		"axios": "1.6.8",
+		"node-stream-zip": "1.15.0"
 	},
 	"devDependencies": {
 		"@playform/build": "0.0.7",
 		"@playform/document": "0.0.6",
-		"@types/chai": "^4.3.12",
-		"@types/glob": "^8.1.0",
-		"@types/node": "^18.19.24",
-		"@types/sinon": "^10.0.20",
-		"chai": "^4.4.1",
-		"glob": "^8.1.0",
-		"lint-staged": "^13.3.0",
-		"rimraf": "^3.0.2",
-		"sinon": "^14.0.2",
-		"ts-loader": "^9.5.1",
-		"vinyl-fs": "^4.0.0"
+		"@types/chai": "4.3.14",
+		"@types/glob": "8.1.0",
+		"@types/node": "20.12.7",
+		"@types/sinon": "17.0.3",
+		"chai": "5.1.0",
+		"glob": "10.3.12",
+		"lint-staged": "15.2.2",
+		"rimraf": "5.0.5",
+		"sinon": "17.0.1",
+		"ts-loader": "9.5.1",
+		"vinyl-fs": "4.0.0"
 	},
 	"extensionDependencies": [
 		"PowerQuery.vscode-powerquery"
