@@ -1,22 +1,46 @@
 {
-	"activationEvents": [
-		"onStartupFinished",
-		"onCommand:workbench.action.tasks.runTask",
-		"onWebviewPanel:powerquery.sdk.tools.ResultWebView",
-		"onLanguage:powerquery"
+	"name": "vscode-powerquery-sdk",
+	"displayName": "Power Query SDK",
+	"version": "0.0.1",
+	"private": false,
+	"description": "Power Query Connector SDK",
+	"keywords": [
+		"land"
 	],
-	"author": {
-		"email": "Land@PlayForm.Cloud",
-		"name": "🌆 — Land —",
-		"url": "HTTPS://Land.PlayForm.Cloud"
-	},
+	"homepage": "HTTPS://GitHub.Com/CodeEditorLand/LandPowerquerySdk#readme",
 	"bugs": {
 		"url": "HTTPS://GitHub.Com/CodeEditorLand/LandPowerquerySdk/issues"
 	},
-	"capabilities": {
-		"untrustedWorkspaces": {
-			"supported": false
-		}
+	"repository": {
+		"type": "git",
+		"url": "git+HTTPS://github.com/CodeEditorLand/LandPowerquerySdk.git"
+	},
+	"license": "SEE LICENSE IN LICENSE",
+	"author": {
+		"name": "🌆 — Land —",
+		"email": "Land@PlayForm.Cloud",
+		"url": "HTTPS://Land.PlayForm.Cloud"
+	},
+	"type": "module",
+	"main": "./dist/extension.js",
+	"scripts": {
+		"Document": "Document 'Source/**/*.ts'",
+		"audit": "npm audit --omit=dev",
+		"build": "npm run build:pq-test-result-view",
+		"build:pq-test-result-view": "cd webviews/pq-test-result-view && npm run build",
+		"clean": "ts-node scripts/clean.ts",
+		"code-install": "ts-node scripts/install.ts",
+		"compile": "webpack --mode development",
+		"compile-tests": "rimraf out && tsc -p . --outDir out",
+		"copy:i18n": "ts-node scripts/addI18n.ts",
+		"install:pq-test-result-view": "cd webviews/pq-test-result-view && npm ci",
+		"prepublishOnly": "Build 'Source/**/*.ts'",
+		"test-ui": "node ./out/src/test/runTest.js",
+		"test:e2e": "npm run compile-tests && npm run test-ui",
+		"test:e2e:old": "npm run compile-tests && ts-node scripts/test-e2e.ts",
+		"test:unit-test": "mocha -r ts-node/register -s 0 \"./unit-tests/**/*.spec.ts\"",
+		"vsix": "npx vsce package --target win32-x64",
+		"watch-tests": "rimraf out && tsc -p . -w --outDir out"
 	},
 	"contributes": {
 		"commands": [
@@ -327,11 +351,26 @@
 			}
 		]
 	},
+	"activationEvents": [
+		"onStartupFinished",
+		"onCommand:workbench.action.tasks.runTask",
+		"onWebviewPanel:powerquery.sdk.tools.ResultWebView",
+		"onLanguage:powerquery"
+	],
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged"
+		}
+	},
+	"lint-staged": {
+		"!(src)/**/*.{ts}": [
+			"npm run lint -- --fix"
+		]
+	},
 	"dependencies": {
 		"axios": "1.6.8",
 		"node-stream-zip": "1.15.0"
 	},
-	"description": "Power Query Connector SDK",
 	"devDependencies": {
 		"@playform/build": "0.0.7",
 		"@playform/document": "0.0.6",
@@ -347,58 +386,19 @@
 		"ts-loader": "9.5.1",
 		"vinyl-fs": "4.0.0"
 	},
-	"displayName": "Power Query SDK",
 	"extensionDependencies": [
 		"PowerQuery.vscode-powerquery"
 	],
-	"homepage": "HTTPS://GitHub.Com/CodeEditorLand/LandPowerquerySdk#readme",
-	"husky": {
-		"hooks": {
-			"pre-commit": "lint-staged"
-		}
-	},
-	"icon": "etc/PQIcon_128.png",
-	"issues": {
-		"url": "https://github.com/microsoft/vscode-powerquery-sdk/issues"
-	},
-	"keywords": [
-		"land"
-	],
-	"license": "SEE LICENSE IN LICENSE",
-	"lint-staged": {
-		"!(src)/**/*.{ts}": [
-			"npm run lint -- --fix"
-		]
-	},
-	"main": "./dist/extension.js",
-	"name": "vscode-powerquery-sdk",
-	"private": false,
 	"publishConfig": {
 		"access": "public"
 	},
-	"repository": {
-		"type": "git",
-		"url": "git+HTTPS://github.com/CodeEditorLand/LandPowerquerySdk.git"
+	"icon": "etc/PQIcon_128.png",
+	"capabilities": {
+		"untrustedWorkspaces": {
+			"supported": false
+		}
 	},
-	"scripts": {
-		"Document": "Document 'Source/**/*.ts'",
-		"audit": "npm audit --omit=dev",
-		"build": "npm run build:pq-test-result-view",
-		"build:pq-test-result-view": "cd webviews/pq-test-result-view && npm run build",
-		"clean": "ts-node scripts/clean.ts",
-		"code-install": "ts-node scripts/install.ts",
-		"compile": "webpack --mode development",
-		"compile-tests": "rimraf out && tsc -p . --outDir out",
-		"copy:i18n": "ts-node scripts/addI18n.ts",
-		"install:pq-test-result-view": "cd webviews/pq-test-result-view && npm ci",
-		"prepublishOnly": "Build 'Source/**/*.ts'",
-		"test-ui": "node ./out/src/test/runTest.js",
-		"test:e2e": "npm run compile-tests && npm run test-ui",
-		"test:e2e:old": "npm run compile-tests && ts-node scripts/test-e2e.ts",
-		"test:unit-test": "mocha -r ts-node/register -s 0 \"./unit-tests/**/*.spec.ts\"",
-		"vsix": "npx vsce package --target win32-x64",
-		"watch-tests": "rimraf out && tsc -p . -w --outDir out"
-	},
-	"type": "module",
-	"version": "0.0.1"
+	"issues": {
+		"url": "https://github.com/microsoft/vscode-powerquery-sdk/issues"
+	}
 }
