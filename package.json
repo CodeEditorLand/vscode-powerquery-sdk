@@ -355,7 +355,7 @@
 		"@types/node": "20.12.12",
 		"@types/sinon": "17.0.3",
 		"chai": "5.1.1",
-		"glob": "10.3.16",
+		"glob": "10.4.1",
 		"lint-staged": "15.2.4",
 		"rimraf": "5.0.7",
 		"sinon": "18.0.0",
