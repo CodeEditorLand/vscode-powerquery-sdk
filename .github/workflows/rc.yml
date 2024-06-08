@@ -2,7 +2,7 @@ name: Release candidate
 on:
     workflow_dispatch:
     push:
-        branches: [main]
+        branches: [Current]
         tags:
             - "v*"
 
