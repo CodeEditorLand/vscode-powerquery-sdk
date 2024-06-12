@@ -331,7 +331,7 @@
 		"@types/sinon": "17.0.3",
 		"chai": "5.1.1",
 		"glob": "10.4.1",
-		"lint-staged": "15.2.5",
+		"lint-staged": "15.2.6",
 		"rimraf": "5.0.7",
 		"sinon": "18.0.0",
 		"ts-loader": "9.5.1",
