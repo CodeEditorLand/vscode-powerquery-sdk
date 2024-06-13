@@ -1,4 +1,0 @@
-{
-  "powerquery.sdk.pqtest.queryFile": "${workspaceFolder}\\${workspaceFolderBasename}.query.pq",
-  "powerquery.sdk.pqtest.extension": "${workspaceFolder}\\bin\\AnyCPU\\Debug\\${workspaceFolderBasename}.mez"
-}
