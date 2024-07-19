@@ -346,21 +346,21 @@
 		]
 	},
 	"dependencies": {
-		"axios": "^1.6.7",
-		"node-stream-zip": "^1.15.0"
+		"axios": "1.7.2",
+		"node-stream-zip": "1.15.0"
 	},
 	"devDependencies": {
-		"@types/chai": "^4.3.12",
-		"@types/glob": "^8.1.0",
-		"@types/node": "^18.19.24",
-		"@types/sinon": "^10.0.20",
-		"chai": "^4.4.1",
-		"glob": "^8.1.0",
-		"lint-staged": "^13.3.0",
-		"rimraf": "^3.0.2",
-		"sinon": "^14.0.2",
-		"ts-loader": "^9.5.1",
-		"vinyl-fs": "^4.0.0"
+		"@types/chai": "4.3.16",
+		"@types/glob": "8.1.0",
+		"@types/node": "20.14.11",
+		"@types/sinon": "17.0.3",
+		"chai": "5.1.1",
+		"glob": "11.0.0",
+		"lint-staged": "15.2.7",
+		"rimraf": "6.0.1",
+		"sinon": "18.0.0",
+		"ts-loader": "9.5.1",
+		"vinyl-fs": "4.0.0"
 	},
 	"extensionDependencies": [
 		"PowerQuery.vscode-powerquery"
