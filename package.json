@@ -1,14 +1,24 @@
 {
-	"activationEvents": [
-		"onStartupFinished",
-		"onCommand:workbench.action.tasks.runTask",
-		"onWebviewPanel:powerquery.sdk.tools.ResultWebView",
-		"onLanguage:powerquery"
-	],
-	"capabilities": {
-		"untrustedWorkspaces": {
-			"supported": false
-		}
+	"name": "vscode-powerquery-sdk",
+	"displayName": "Power Query SDK",
+	"description": "Power Query Connector SDK",
+	"main": "./dist/extension.js",
+	"scripts": {
+		"audit": "npm audit --omit=dev",
+		"build": "npm run build:pq-test-result-view",
+		"build:pq-test-result-view": "cd webviews/pq-test-result-view && npm run build",
+		"clean": "ts-node scripts/clean.ts",
+		"code-install": "ts-node scripts/install.ts",
+		"compile": "webpack --mode development",
+		"compile-tests": "rimraf out && tsc -p . --outDir out",
+		"copy:i18n": "ts-node scripts/addI18n.ts",
+		"install:pq-test-result-view": "cd webviews/pq-test-result-view && npm ci",
+		"test-ui": "node ./out/src/test/runTest.js",
+		"test:e2e": "npm run compile-tests && npm run test-ui",
+		"test:e2e:old": "npm run compile-tests && ts-node scripts/test-e2e.ts",
+		"test:unit-test": "mocha -r ts-node/register -s 0 \"./unit-tests/**/*.spec.ts\"",
+		"vsix": "npx vsce package --target win32-x64",
+		"watch-tests": "rimraf out && tsc -p . -w --outDir out"
 	},
 	"contributes": {
 		"commands": [
@@ -319,11 +329,26 @@
 			}
 		]
 	},
+	"activationEvents": [
+		"onStartupFinished",
+		"onCommand:workbench.action.tasks.runTask",
+		"onWebviewPanel:powerquery.sdk.tools.ResultWebView",
+		"onLanguage:powerquery"
+	],
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged"
+		}
+	},
+	"lint-staged": {
+		"!(src)/**/*.{ts}": [
+			"npm run lint -- --fix"
+		]
+	},
 	"dependencies": {
 		"axios": "1.6.7",
 		"node-stream-zip": "1.15.0"
 	},
-	"description": "Power Query Connector SDK",
 	"devDependencies": {
 		"@types/chai": "4.3.12",
 		"@types/glob": "8.1.0",
@@ -337,41 +362,16 @@
 		"ts-loader": "9.5.1",
 		"vinyl-fs": "4.0.0"
 	},
-	"displayName": "Power Query SDK",
 	"extensionDependencies": [
 		"PowerQuery.vscode-powerquery"
 	],
-	"husky": {
-		"hooks": {
-			"pre-commit": "lint-staged"
+	"icon": "etc/PQIcon_128.png",
+	"capabilities": {
+		"untrustedWorkspaces": {
+			"supported": false
 		}
 	},
-	"icon": "etc/PQIcon_128.png",
 	"issues": {
 		"url": "https://github.com/microsoft/vscode-powerquery-sdk/issues"
-	},
-	"lint-staged": {
-		"!(src)/**/*.{ts}": [
-			"npm run lint -- --fix"
-		]
-	},
-	"main": "./dist/extension.js",
-	"name": "vscode-powerquery-sdk",
-	"scripts": {
-		"audit": "npm audit --omit=dev",
-		"build": "npm run build:pq-test-result-view",
-		"build:pq-test-result-view": "cd webviews/pq-test-result-view && npm run build",
-		"clean": "ts-node scripts/clean.ts",
-		"code-install": "ts-node scripts/install.ts",
-		"compile": "webpack --mode development",
-		"compile-tests": "rimraf out && tsc -p . --outDir out",
-		"copy:i18n": "ts-node scripts/addI18n.ts",
-		"install:pq-test-result-view": "cd webviews/pq-test-result-view && npm ci",
-		"test-ui": "node ./out/src/test/runTest.js",
-		"test:e2e": "npm run compile-tests && npm run test-ui",
-		"test:e2e:old": "npm run compile-tests && ts-node scripts/test-e2e.ts",
-		"test:unit-test": "mocha -r ts-node/register -s 0 \"./unit-tests/**/*.spec.ts\"",
-		"vsix": "npx vsce package --target win32-x64",
-		"watch-tests": "rimraf out && tsc -p . -w --outDir out"
 	}
 }
