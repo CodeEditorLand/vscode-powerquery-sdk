@@ -19,16 +19,13 @@ const distDirectory: string = path.join(projectDirectory, "dist");
 const webviewDistDirectory: string = path.join(projectDirectory, "webviewDist");
 
 [distDirectory, webviewDistDirectory].forEach((oneDirectory: string) => {
-	if (fs.existsSync(oneDirectory)) {
-		fs.rmSync(oneDirectory, { force: true, recursive: true });
-	}
+    if (fs.existsSync(oneDirectory)) {
+        fs.rmSync(oneDirectory, { force: true, recursive: true });
+    }
 });
 
-const otherPackageNlsJsonsGlob: IGlobBase = new GlobSync(
-	"package.nls.**.json",
-	{ cwd: projectDirectory },
-);
+const otherPackageNlsJsonsGlob: IGlobBase = new GlobSync("package.nls.**.json", { cwd: projectDirectory });
 
 otherPackageNlsJsonsGlob.found.forEach((oneNlsJson: string) => {
-	fs.unlinkSync(path.join(projectDirectory, oneNlsJson));
+    fs.unlinkSync(path.join(projectDirectory, oneNlsJson));
 });
