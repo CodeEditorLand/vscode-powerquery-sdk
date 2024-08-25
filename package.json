@@ -320,7 +320,7 @@
 		]
 	},
 	"dependencies": {
-		"axios": "1.6.7",
+		"axios": "1.7.4",
 		"node-stream-zip": "1.15.0"
 	},
 	"description": "Power Query Connector SDK",
