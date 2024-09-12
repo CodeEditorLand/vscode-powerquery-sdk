@@ -1,18 +1,18 @@
 {
 	"dependencies": {
-		"classnames": "^2.5.1"
+		"classnames": "2.5.1"
 	},
 	"description": "The web view for pqtest results",
 	"devDependencies": {
-		"@types/classnames": "^2.3.1",
-		"css-loader": "^6.10.0",
-		"dotenv": "^8.6.0",
-		"dotenv-expand": "^8.0.3",
-		"file-loader": "^6.2.0",
-		"node-sass": "^9.0.0",
-		"rimraf": "^3.0.2",
-		"sass-loader": "^14.1.1",
-		"style-loader": "^3.3.4"
+		"@types/classnames": "2.3.1",
+		"css-loader": "6.10.0",
+		"dotenv": "8.6.0",
+		"dotenv-expand": "8.0.3",
+		"file-loader": "6.2.0",
+		"node-sass": "9.0.0",
+		"rimraf": "3.0.2",
+		"sass-loader": "14.1.1",
+		"style-loader": "3.3.4"
 	},
 	"name": "pq-test-result-view",
 	"scripts": {
