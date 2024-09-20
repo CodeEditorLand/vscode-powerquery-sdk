@@ -1,1 +1,0 @@
-﻿AadTestConnector.Contents()
