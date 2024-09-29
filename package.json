@@ -327,7 +327,7 @@
 	"devDependencies": {
 		"@types/chai": "5.0.0",
 		"@types/glob": "8.1.0",
-		"@types/node": "22.7.3",
+		"@types/node": "22.7.4",
 		"@types/sinon": "17.0.3",
 		"chai": "5.1.1",
 		"glob": "11.0.0",
