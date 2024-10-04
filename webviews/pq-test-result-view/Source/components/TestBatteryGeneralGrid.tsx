@@ -5,32 +5,38 @@
  * LICENSE file in the root of this projects source tree.
  */
 
-import React from "react";
-import { DetailsList, DetailsListLayoutMode, SelectionMode, ConstrainMode } from "@fluentui/react/lib/DetailsList";
+import {
+	ConstrainMode,
+	DetailsList,
+	DetailsListLayoutMode,
+	SelectionMode,
+} from "@fluentui/react/lib/DetailsList";
 import { mergeStyles } from "@fluentui/react/lib/Styling";
+import React from "react";
 
 interface TestBatteryOutputGridProps {
-    items: any[];
+	items: any[];
 }
 
 const testBatteryGeneralGrid = mergeStyles({
-    height: "calc( 100vh - 44px)",
-    overflow: "auto",
+	height: "calc( 100vh - 44px)",
+	overflow: "auto",
 });
 
-export const TestBatteryGeneralGrid: React.FC<TestBatteryOutputGridProps> = React.memo(props => {
-    const { items } = props;
+export const TestBatteryGeneralGrid: React.FC<TestBatteryOutputGridProps> =
+	React.memo((props) => {
+		const { items } = props;
 
-    return (
-        <div className={testBatteryGeneralGrid}>
-            <DetailsList
-                compact={true}
-                // viewport={viewPort}
-                constrainMode={ConstrainMode.unconstrained}
-                selectionMode={SelectionMode.none}
-                layoutMode={DetailsListLayoutMode.fixedColumns}
-                items={items}
-            />
-        </div>
-    );
-});
+		return (
+			<div className={testBatteryGeneralGrid}>
+				<DetailsList
+					compact={true}
+					// viewport={viewPort}
+					constrainMode={ConstrainMode.unconstrained}
+					selectionMode={SelectionMode.none}
+					layoutMode={DetailsListLayoutMode.fixedColumns}
+					items={items}
+				/>
+			</div>
+		);
+	});
