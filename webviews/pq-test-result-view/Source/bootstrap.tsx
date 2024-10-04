@@ -5,20 +5,20 @@
  * LICENSE file in the root of this projects source tree.
  */
 
+import { initializeIcons } from "@fluentui/react/lib/Icons";
 import React from "react";
 import ReactDom from "react-dom";
 
-import { initializeIcons } from "@fluentui/react/lib/Icons";
 import App from "./App";
 
 initializeIcons();
 
 window.addEventListener(
-    "contextmenu",
-    e => {
-        e.stopImmediatePropagation();
-    },
-    true,
+	"contextmenu",
+	(e) => {
+		e.stopImmediatePropagation();
+	},
+	true,
 );
 
 ReactDom.render(<App />, document.querySelector("#root"));
