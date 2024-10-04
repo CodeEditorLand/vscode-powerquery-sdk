@@ -13,53 +13,56 @@ type ResolveHandler<T> = (value: T | PromiseLike<T>) => void;
 type RejectHandler = (reason: any) => void;
 
 export class WaitNotify {
-    private readonly eventEmitter: EventEmitter = new EventEmitter();
-    private readonly waitingIds: Array<string> = [];
+	private readonly eventEmitter: EventEmitter = new EventEmitter();
+	private readonly waitingIds: Array<string> = [];
 
-    wait(timeout: number = 0): Promise<void> {
-        return new Promise<void>((resolve: ResolveHandler<void>, reject: RejectHandler) => {
-            const currentId: string = crypto.randomUUID();
-            this.waitingIds.push(currentId);
-            let timeoutHandler: NodeJS.Timeout | undefined = undefined;
+	wait(timeout: number = 0): Promise<void> {
+		return new Promise<void>(
+			(resolve: ResolveHandler<void>, reject: RejectHandler) => {
+				const currentId: string = crypto.randomUUID();
+				this.waitingIds.push(currentId);
+				let timeoutHandler: NodeJS.Timeout | undefined = undefined;
 
-            this.eventEmitter.once(currentId, () => {
-                if (timeoutHandler) {
-                    clearTimeout(timeoutHandler);
-                }
+				this.eventEmitter.once(currentId, () => {
+					if (timeoutHandler) {
+						clearTimeout(timeoutHandler);
+					}
 
-                resolve();
-            });
+					resolve();
+				});
 
-            if (timeout) {
-                timeoutHandler = setTimeout(() => {
-                    const stillWaitingIdIndex: number = this.waitingIds.indexOf(currentId);
+				if (timeout) {
+					timeoutHandler = setTimeout(() => {
+						const stillWaitingIdIndex: number =
+							this.waitingIds.indexOf(currentId);
 
-                    if (stillWaitingIdIndex !== -1) {
-                        this.waitingIds.splice(stillWaitingIdIndex, 1);
-                        reject(new Error("WaitNotify timeout"));
-                    }
-                }, timeout);
-            }
-        });
-    }
+						if (stillWaitingIdIndex !== -1) {
+							this.waitingIds.splice(stillWaitingIdIndex, 1);
+							reject(new Error("WaitNotify timeout"));
+						}
+					}, timeout);
+				}
+			},
+		);
+	}
 
-    notify(): void {
-        this.notifyAll();
-    }
+	notify(): void {
+		this.notifyAll();
+	}
 
-    notifyAll(): void {
-        for (const waitingId of this.waitingIds) {
-            this.eventEmitter.emit(waitingId);
-        }
+	notifyAll(): void {
+		for (const waitingId of this.waitingIds) {
+			this.eventEmitter.emit(waitingId);
+		}
 
-        this.waitingIds.length = 0;
-    }
+		this.waitingIds.length = 0;
+	}
 
-    notifyOne(): void {
-        const maybeWaitingId: string | undefined = this.waitingIds.shift();
+	notifyOne(): void {
+		const maybeWaitingId: string | undefined = this.waitingIds.shift();
 
-        if (maybeWaitingId) {
-            this.eventEmitter.emit(maybeWaitingId);
-        }
-    }
+		if (maybeWaitingId) {
+			this.eventEmitter.emit(maybeWaitingId);
+		}
+	}
 }

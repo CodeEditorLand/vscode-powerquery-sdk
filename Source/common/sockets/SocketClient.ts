@@ -7,22 +7,21 @@
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { createConnection, Socket } from "net";
 import { EventEmitter } from "events";
+import { createConnection, Socket } from "net";
 
-import { NumberGenerator, NumberIterator } from "../iterables/NumberIterator";
-import { promisifyTry } from "../promises/promisifyTry";
-
-import { BaseError } from "../errors";
 import { delay } from "../../utils/pids";
+import { BaseError } from "../errors";
+import { NumberGenerator, NumberIterator } from "../iterables/NumberIterator";
 import { fromEvent } from "../promises/fromEvent";
 import { fromEvents } from "../promises/fromEvents";
+import { promisifyTry } from "../promises/promisifyTry";
 
 export class SocketConnectionError extends BaseError {}
 export class SocketAbortedConnection extends SocketConnectionError {
-    constructor() {
-        super("Tcp socket connection aborted");
-    }
+	constructor() {
+		super("Tcp socket connection aborted");
+	}
 }
 
 // eslint-disable-next-line @typescript-eslint/typedef
@@ -41,149 +40,157 @@ export type StatusType = "closed" | "connecting" | "open";
 export type SocketExtended = Socket & { abort?: boolean };
 
 export class SocketClient extends EventEmitter {
-    private _status: StatusType = "closed";
-    private _socket: SocketExtended | undefined = undefined;
+	private _status: StatusType = "closed";
+	private _socket: SocketExtended | undefined = undefined;
 
-    constructor(private readonly port: number, private readonly host: string) {
-        super();
-    }
+	constructor(
+		private readonly port: number,
+		private readonly host: string,
+	) {
+		super();
+	}
 
-    get status(): StatusType {
-        return this._status;
-    }
+	get status(): StatusType {
+		return this._status;
+	}
 
-    get socket(): Socket | undefined {
-        return this._socket;
-    }
+	get socket(): Socket | undefined {
+		return this._socket;
+	}
 
-    close(): Promise<void> {
-        return promisifyTry(() => {
-            const status: StatusType = this._status;
+	close(): Promise<void> {
+		return promisifyTry(() => {
+			const status: StatusType = this._status;
 
-            if (status === CLOSED) {
-                return;
-            }
+			if (status === CLOSED) {
+				return;
+			}
 
-            const currentSocket: SocketExtended | undefined = this._socket;
+			const currentSocket: SocketExtended | undefined = this._socket;
 
-            if (!currentSocket) {
-                return;
-            }
+			if (!currentSocket) {
+				return;
+			}
 
-            if (status === CONNECTING) {
-                currentSocket.abort = true;
-                currentSocket.destroy();
+			if (status === CONNECTING) {
+				currentSocket.abort = true;
+				currentSocket.destroy();
 
-                return;
-            }
+				return;
+			}
 
-            const promise: Promise<void> = fromEvent(currentSocket, "close");
-            currentSocket.destroy();
+			const promise: Promise<void> = fromEvent(currentSocket, "close");
+			currentSocket.destroy();
 
-            return promise;
-        }) as Promise<void>;
-    }
+			return promise;
+		}) as Promise<void>;
+	}
 
-    open(backOffGenerator?: NumberGenerator): Promise<void> {
-        if (!backOffGenerator) {
-            return this._open();
-        }
+	open(backOffGenerator?: NumberGenerator): Promise<void> {
+		if (!backOffGenerator) {
+			return this._open();
+		}
 
-        const theNumberIterator: NumberIterator = backOffGenerator();
+		const theNumberIterator: NumberIterator = backOffGenerator();
 
-        let __cancelled: boolean = false;
+		let __cancelled: boolean = false;
 
-        const cancel = (): void => {
-            __cancelled = true;
-        };
+		const cancel = (): void => {
+			__cancelled = true;
+		};
 
-        let __error: any;
+		let __error: any;
 
-        const attempt = (): Promise<void> => {
-            if (__cancelled) {
-                throw __error;
-            }
+		const attempt = (): Promise<void> => {
+			if (__cancelled) {
+				throw __error;
+			}
 
-            return this._open().catch((reason: any) => {
-                let current: IteratorResult<number, undefined>;
+			return this._open().catch((reason: any) => {
+				let current: IteratorResult<number, undefined>;
 
-                if (reason instanceof SocketAbortedConnection || (current = theNumberIterator.next()).done) {
-                    throw reason;
-                }
+				if (
+					reason instanceof SocketAbortedConnection ||
+					(current = theNumberIterator.next()).done
+				) {
+					throw reason;
+				}
 
-                const value: number = current.value;
+				const value: number = current.value;
 
-                this.emit("scheduledAttempt", { cancel, delay: value });
+				this.emit("scheduledAttempt", { cancel, delay: value });
 
-                __error = reason;
+				__error = reason;
 
-                return delay(value).then(attempt);
-            });
-        };
+				return delay(value).then(attempt);
+			});
+		};
 
-        const result: Promise<void> = attempt();
-        (result as any).cancel = cancel;
+		const result: Promise<void> = attempt();
+		(result as any).cancel = cancel;
 
-        return result;
-    }
+		return result;
+	}
 
-    send(data: any): void {
-        this._assertStatus(OPEN);
-        this._socket?.write(data);
-    }
+	send(data: any): void {
+		this._assertStatus(OPEN);
+		this._socket?.write(data);
+	}
 
-    private _assertStatus(expected: StatusType): void {
-        if (this._status !== expected) {
-            throw new SocketConnectionError(`invalid status ${this._status}, expected ${expected}`);
-        }
-    }
+	private _assertStatus(expected: StatusType): void {
+		if (this._status !== expected) {
+			throw new SocketConnectionError(
+				`invalid status ${this._status}, expected ${expected}`,
+			);
+		}
+	}
 
-    private _onClose: (hadError: boolean) => void = (hadError: boolean) => {
-        const previousStatus: StatusType = this._status;
+	private _onClose: (hadError: boolean) => void = (hadError: boolean) => {
+		const previousStatus: StatusType = this._status;
 
-        this._socket = undefined;
-        this._status = CLOSED;
+		this._socket = undefined;
+		this._status = CLOSED;
 
-        if (previousStatus === OPEN) {
-            this.emit(CLOSED, hadError);
-        }
-    };
+		if (previousStatus === OPEN) {
+			this.emit(CLOSED, hadError);
+		}
+	};
 
-    private _onError: (event: Error) => void = (error: Error) => {
-        this.emit(ERROR, error);
-    };
+	private _onError: (event: Error) => void = (error: Error) => {
+		this.emit(ERROR, error);
+	};
 
-    private _onMessage: (...args: any[]) => void = (...args: any[]) => {
-        this.emit(MESSAGE, ...args);
-    };
+	private _onMessage: (...args: any[]) => void = (...args: any[]) => {
+		this.emit(MESSAGE, ...args);
+	};
 
-    private _open: () => Promise<void> = () =>
-        promisifyTry(() => {
-            this._assertStatus(CLOSED);
-            this._status = CONNECTING;
+	private _open: () => Promise<void> = () =>
+		promisifyTry(() => {
+			this._assertStatus(CLOSED);
+			this._status = CONNECTING;
 
-            return promisifyTry(() => {
-                const socket: Socket = createConnection(this.port, this.host);
-                this._socket = socket;
-                this._socket.setTimeout(0);
-                this._socket.setKeepAlive(true);
+			return promisifyTry(() => {
+				const socket: Socket = createConnection(this.port, this.host);
+				this._socket = socket;
+				this._socket.setTimeout(0);
+				this._socket.setKeepAlive(true);
 
-                return fromEvents(socket, ["connect"], ["close", "error"]).then(
-                    () => {
-                        socket.on("close", this._onClose);
-                        socket.on("error", this._onError);
-                        socket.on("message", this._onMessage);
-                        this._status = OPEN;
-                        this.emit(OPEN);
-                    },
-                    ([error]: any[]) => {
-                        if ((socket as any).abort) {
-                            throw new SocketAbortedConnection();
-                        }
+				return fromEvents(socket, ["connect"], ["close", "error"]).then(
+					() => {
+						socket.on("close", this._onClose);
+						socket.on("error", this._onError);
+						socket.on("message", this._onMessage);
+						this._status = OPEN;
+						this.emit(OPEN);
+					},
+					([error]: any[]) => {
+						if ((socket as any).abort) {
+							throw new SocketAbortedConnection();
+						}
 
-                        throw error;
-                    },
-                );
-            });
-        }) as unknown as Promise<void>;
+						throw error;
+					},
+				);
+			});
+		}) as unknown as Promise<void>;
 }
