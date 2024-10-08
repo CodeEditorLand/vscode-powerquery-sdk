@@ -6,19 +6,14 @@
  */
 
 import * as cp from "child_process";
-
 import { getFirstVsixFileDirectlyBeneathOneDirectory } from "./utils/vsixs";
 
 const cwd = process.cwd();
 
-let oneVsixFile: string = getFirstVsixFileDirectlyBeneathOneDirectory(
-	process.cwd(),
-);
+let oneVsixFile: string = getFirstVsixFileDirectlyBeneathOneDirectory(process.cwd());
 
 if (oneVsixFile) {
-	cp.execSync(`code --install-extension ${oneVsixFile}`, { cwd });
+    cp.execSync(`code --install-extension ${oneVsixFile}`, { cwd });
 } else {
-	console.error(
-		'Cannot find one vsix file, please run "npm run vsix" before install.',
-	);
+    console.error('Cannot find one vsix file, please run "npm run vsix" before install.');
 }
