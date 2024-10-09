@@ -7,18 +7,22 @@
 
 import fs from "fs";
 
-export function getFirstVsixFileDirectlyBeneathOneDirectory(targetDirectory: string) {
-    const dirents: fs.Dirent[] = fs.readdirSync(targetDirectory, { withFileTypes: true });
+export function getFirstVsixFileDirectlyBeneathOneDirectory(
+	targetDirectory: string,
+) {
+	const dirents: fs.Dirent[] = fs.readdirSync(targetDirectory, {
+		withFileTypes: true,
+	});
 
-    let oneVsixFile: string = "";
+	let oneVsixFile: string = "";
 
-    dirents.some((dirent: fs.Dirent) => {
-        if (!dirent.isDirectory() && dirent.name.endsWith(".vsix")) {
-            oneVsixFile = dirent.name;
-            return true;
-        }
-        return false;
-    });
+	dirents.some((dirent: fs.Dirent) => {
+		if (!dirent.isDirectory() && dirent.name.endsWith(".vsix")) {
+			oneVsixFile = dirent.name;
+			return true;
+		}
+		return false;
+	});
 
-    return oneVsixFile;
+	return oneVsixFile;
 }

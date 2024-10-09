@@ -7,8 +7,11 @@
 
 import * as assert from "assert";
 
-export function assertNotNull<T>(value: T | undefined, errorMessage: string = "Found an unexpected nullable value"): T {
-    assert.ok(Boolean(value), errorMessage);
+export function assertNotNull<T>(
+	value: T | undefined,
+	errorMessage: string = "Found an unexpected nullable value",
+): T {
+	assert.ok(Boolean(value), errorMessage);
 
-    return value as T;
+	return value as T;
 }

@@ -14,5 +14,5 @@ export type UnknownFunction = (...args: unknown[]) => unknown;
 export type ReturnedFunction<T> = (...args: unknown[]) => T;
 
 export interface BasicEvent {
-    type: string;
+	type: string;
 }
