@@ -89,6 +89,7 @@ export class PqSdkTaskTerminal implements vscode.Pseudoterminal {
 						await this.pqServiceHostClientLite.DeleteCredential();
 
 					this.appendInfoLine(deleteCredentialResult.Message);
+
 					break;
 				}
 

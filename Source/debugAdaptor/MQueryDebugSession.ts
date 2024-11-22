@@ -90,12 +90,17 @@ export class MQueryDebugSession extends LoggingDebugSession {
 					switch (type) {
 						case "stdOutput":
 							category = "stdout";
+
 							break;
+
 						case "stdError":
 							category = "stderr";
+
 							break;
+
 						default:
 							category = "console";
+
 							break;
 					}
 
@@ -103,6 +108,7 @@ export class MQueryDebugSession extends LoggingDebugSession {
 						`${text}\n`,
 						category,
 					);
+
 					const maybePathToQueryFile: string =
 						this.pqTestExecutableOnceTask?.pathToQueryFile ?? "";
 

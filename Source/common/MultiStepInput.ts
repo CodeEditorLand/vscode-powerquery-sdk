@@ -245,6 +245,7 @@ export class MultiStepInput {
 							const current: Promise<string | undefined> =
 								validate(text);
 							validating = current;
+
 							const validationMessage: string | undefined =
 								await current;
 

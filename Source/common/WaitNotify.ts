@@ -21,6 +21,7 @@ export class WaitNotify {
 			(resolve: ResolveHandler<void>, reject: RejectHandler) => {
 				const currentId: string = crypto.randomUUID();
 				this.waitingIds.push(currentId);
+
 				let timeoutHandler: NodeJS.Timeout | undefined = undefined;
 
 				this.eventEmitter.once(currentId, () => {

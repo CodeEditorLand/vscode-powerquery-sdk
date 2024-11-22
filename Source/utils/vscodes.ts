@@ -15,7 +15,9 @@ import { ExtensionConstants } from "../constants/PowerQuerySdkExtension";
 import { replaceAt } from "./strings";
 
 const RegularSubstitutedValueRegexp: RegExp = /\${([A-Za-z0-9.]*)}/g;
+
 const EnvironmentSubstitutedValueRegexp: RegExp = /\${env:(.*?)}/g;
+
 const ConfigurationSubstitutedValueRegexp: RegExp = /\${config:(.*?)}/g;
 
 function doResolveRegularSubstitutedValue(valueName: string): string {
@@ -29,9 +31,11 @@ function doResolveRegularSubstitutedValue(valueName: string): string {
 
 	const activeFile: vscode.TextDocument | undefined =
 		vscode.window.activeTextEditor?.document;
+
 	const absoluteActivateFilePath: string | undefined = activeFile?.uri.fsPath;
 
 	let activeWorkspace: vscode.WorkspaceFolder | undefined = workspace;
+
 	let relativeFilePath: string | undefined = absoluteActivateFilePath;
 
 	if (Array.isArray(workspaces) && absoluteActivateFilePath) {
@@ -62,45 +66,69 @@ function doResolveRegularSubstitutedValue(valueName: string): string {
 		switch (valueName) {
 			case "workspaceFolder":
 				retVal = workspace?.uri.fsPath;
+
 				break;
+
 			case "workspaceFolderBasename":
 				retVal = workspace?.name;
+
 				break;
+
 			case "file":
 				retVal = absoluteActivateFilePath;
+
 				break;
+
 			case "fileWorkspaceFolder":
 				retVal = activeWorkspace?.uri.fsPath;
+
 				break;
+
 			case "relativeFile":
 				retVal = relativeFilePath;
+
 				break;
+
 			case "relativeFileDirname":
 				retVal = relativeFilePath?.substring(
 					0,
 					relativeFilePath.lastIndexOf(path.sep),
 				);
+
 				break;
+
 			case "fileBasename":
 				retVal = parsedPath?.base;
+
 				break;
+
 			case "fileBasenameNoExtension":
 				retVal = parsedPath?.name;
+
 				break;
+
 			case "fileExtname":
 				retVal = parsedPath?.ext;
+
 				break;
+
 			case "fileDirname":
 				retVal = parsedPath?.dir.substring(
 					parsedPath.dir.lastIndexOf(path.sep) + 1,
 				);
+
 				break;
+
 			case "cwd":
 				retVal = parsedPath?.dir;
+
 				break;
+
 			case "pathSeparator":
 				retVal = path.sep;
+
 				break;
+
 			case "lineNumber":
 				retVal = vscode.window.activeTextEditor
 					? String(
@@ -109,6 +137,7 @@ function doResolveRegularSubstitutedValue(valueName: string): string {
 					: undefined;
 
 				break;
+
 			case "selectedText":
 				retVal = vscode.window.activeTextEditor
 					? vscode.window.activeTextEditor.document.getText(
@@ -120,8 +149,10 @@ function doResolveRegularSubstitutedValue(valueName: string): string {
 					: undefined;
 
 				break;
+
 			default:
 				retVal = valueName;
+
 				break;
 		}
 	}
@@ -150,8 +181,10 @@ export function resolveSubstitutedValues(
 ): string | undefined {
 	if (str) {
 		let result: string = str;
+
 		let matchedType: SubstitutedValueMatchedStatus =
 			SubstitutedValueMatchedStatus.NONE;
+
 		let curMatch: RegExpExecArray | null = null;
 
 		const tryToFindOneMatched = (): void => {
@@ -199,6 +232,7 @@ export function resolveSubstitutedValues(
 					);
 
 					break;
+
 				case SubstitutedValueMatchedStatus.ENV:
 					result = replaceAt(
 						result,
@@ -208,6 +242,7 @@ export function resolveSubstitutedValues(
 					);
 
 					break;
+
 				case SubstitutedValueMatchedStatus.CONFIG:
 					result = replaceAt(
 						result,
@@ -217,6 +252,7 @@ export function resolveSubstitutedValues(
 					);
 
 					break;
+
 				default:
 					break;
 			}
@@ -272,6 +308,7 @@ export function substitutedWorkspaceFolderBasenameIfNeeded(
 
 	if (firstWorksapce) {
 		const workspaceFolderBaseName: string = firstWorksapce.name;
+
 		const startingIndex: number = str.indexOf(workspaceFolderBaseName);
 
 		if (startingIndex > -1) {
@@ -295,6 +332,7 @@ export function manuallyGetLocalVscSetting(
 		".vscode",
 		"settings.json",
 	);
+
 	let result: Record<string, string> = {};
 
 	if (fs.existsSync(expectedVscodeSettingPath)) {
@@ -363,6 +401,7 @@ export async function maybeHandleNewWorkspaceCreated(): Promise<void> {
 		const baseDirectory: string = path.basename(
 			maybeFirstWorkspaceUri.fsPath,
 		);
+
 		const expectedRootPqPath: string = path.join(
 			maybeFirstWorkspaceUri.fsPath,
 			`${baseDirectory}.pq`,

@@ -88,6 +88,7 @@ class MQueryNodeDebugAdapterNamedPipeServerDescriptorFactory
 		if (!this.server) {
 			// start listening on a random named pipe path
 			const pipeName: string = randomBytes(10).toString("utf8");
+
 			const pipePath: string =
 				platform === "win32"
 					? join("\\\\.\\pipe\\", pipeName)

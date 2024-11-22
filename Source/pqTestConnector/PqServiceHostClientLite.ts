@@ -232,6 +232,7 @@ export class PqServiceHostClientLite
 		this.outputChannel.appendInfoLine(
 			`Start to listen PqServiceHost.exe at ${port}`,
 		);
+
 		const theJsonRpcSocketClient: JsonRpcSocketClient =
 			new JsonRpcSocketClient(port);
 
@@ -428,7 +429,9 @@ export class PqServiceHostClientLite
 			}
 
 			let portNumber: number | undefined = undefined;
+
 			let portInUse: boolean = false;
+
 			let maxTry: number = 4;
 
 			while (maxTry > 0 && !portInUse) {
@@ -474,6 +477,7 @@ export class PqServiceHostClientLite
 		// PQTestLocation getter
 		const nextPQTestLocation: string | undefined =
 			ExtensionConfigurations.PQTestLocation;
+
 		const pqServiceHostExe: string | undefined =
 			this.resolvePQServiceHostPath(nextPQTestLocation);
 

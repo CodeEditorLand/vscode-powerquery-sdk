@@ -30,7 +30,9 @@ export const cancelable = <F extends AnyReturnedFunction<Promise<unknown>>>(
 		function cancelableWrapper(this: any): ReturnType<F> {
 			// eslint-disable-next-line @typescript-eslint/no-this-alias,no-invalid-this
 			const self: unknown = this as any;
+
 			const args: unknown[] = [...arguments];
+
 			const length: number = arguments.length;
 
 			if (
@@ -43,6 +45,7 @@ export const cancelable = <F extends AnyReturnedFunction<Promise<unknown>>>(
 
 			const cancellationTokenSource: CancellationTokenSource =
 				new CancellationTokenSource();
+
 			const newArgs: unknown[] = new Array(length + 1);
 			newArgs[0] = cancellationTokenSource.token;
 

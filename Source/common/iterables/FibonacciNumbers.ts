@@ -9,6 +9,7 @@ import { NumberIterator } from "./NumberIterator";
 
 export const fibonacciNumbers: () => NumberIterator = () => {
 	let curVal: number = 1;
+
 	let nextVal: number = 1;
 
 	return new NumberIterator(() => {

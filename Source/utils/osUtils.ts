@@ -13,7 +13,9 @@ import { makeId } from "./ids";
 
 export function makeOneTmpDir(): string {
 	const tmpDir: string = os.tmpdir();
+
 	const tmpDirBaseName: string = makeId(7);
+
 	const targetDir: string = path.join(tmpDir, tmpDirBaseName);
 	fs.mkdirSync(targetDir);
 

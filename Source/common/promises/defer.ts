@@ -14,6 +14,7 @@ export type DeferredResult<T> = {
 
 export function defer<T>(): DeferredResult<T> {
 	let resolve: (value: T) => void = undefined as any;
+
 	let reject: (reason: any) => void = undefined as any;
 
 	const promise: Promise<T> = new Promise<T>(

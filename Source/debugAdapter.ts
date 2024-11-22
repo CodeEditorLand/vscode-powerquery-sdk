@@ -26,6 +26,7 @@ import { MQueryDebugSession } from "./debugAdaptor/MQueryDebugSession";
 
 // first parse command line arguments to see whether the debug adapter should run as a server
 let port: number = 0;
+
 const args: string[] = process.argv.slice(2);
 
 args.forEach(function (val: string, _index: number, _array: string[]) {

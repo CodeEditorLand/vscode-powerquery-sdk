@@ -14,10 +14,12 @@ export function findExecutable(
 	extArr: string[] = [""],
 ): string | undefined {
 	const envPath: string = process.env.PATH ?? "";
+
 	const pathDirectories: string[] = envPath
 		.replace(/["]+/g, "")
 		.split(path.delimiter)
 		.filter(Boolean);
+
 	let result: string | undefined = undefined;
 
 	pathDirectories.some((oneDirectory: string) =>

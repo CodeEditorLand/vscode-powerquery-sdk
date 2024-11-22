@@ -70,6 +70,7 @@ export function makeEventAdder(
 		? (eventName: string, cb: AnyFunction): void => {
 				function listener(): void {
 					clean();
+
 					const args: unknown[] =
 						Array.prototype.slice.call(arguments);
 					(args as any).name = eventName;

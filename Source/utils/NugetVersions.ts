@@ -9,10 +9,13 @@ import * as path from "path";
 
 const NugetStdOutputOfVersionRegExp: RegExp =
 	/(Microsoft\.PowerQuery\.SdkTools[ ])([0-9]+)\.([0-9]+)\.([0-9]+)/g;
+
 const PathPartOfVersionRegExp: RegExp =
 	/(Microsoft\.PowerQuery\.SdkTools\.)([0-9]+)\.([0-9]+)\.([0-9]+)/g;
+
 const ReleasedVersionRegExp: RegExp =
 	/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/;
+
 const NumericRegExp: RegExp = /^[0-9]+$/;
 export class NugetVersions {
 	public static ZERO_VERSION: NugetVersions = new NugetVersions(
@@ -33,6 +36,7 @@ export class NugetVersions {
 		let result: NugetVersions = NugetVersions.ZERO_VERSION;
 
 		NugetStdOutputOfVersionRegExp.lastIndex = 0;
+
 		const matched: RegExpMatchArray | null =
 			NugetStdOutputOfVersionRegExp.exec(stdOutput);
 
@@ -60,6 +64,7 @@ export class NugetVersions {
 		if (!stdOutput) return result;
 
 		NugetStdOutputOfVersionRegExp.lastIndex = 0;
+
 		let matched: RegExpMatchArray | null =
 			NugetStdOutputOfVersionRegExp.exec(stdOutput);
 
@@ -81,6 +86,7 @@ export class NugetVersions {
 		if (!fullPath) return NugetVersions.ZERO_VERSION;
 
 		const pathParts: string[] = fullPath.split(path.sep);
+
 		let result: NugetVersions = NugetVersions.ZERO_VERSION;
 
 		pathParts.some((onePath: string) => {
@@ -109,6 +115,7 @@ export class NugetVersions {
 		if (!releasedVersionString) return NugetVersions.ZERO_VERSION;
 
 		let result: NugetVersions = NugetVersions.ZERO_VERSION;
+
 		const matched: RegExpMatchArray | null = ReleasedVersionRegExp.exec(
 			releasedVersionString,
 		);
@@ -135,6 +142,7 @@ export class NugetVersions {
 		if (!fuzzyVersionString) return NugetVersions.ZERO_VERSION;
 
 		let result: NugetVersions = NugetVersions.ZERO_VERSION;
+
 		const spitedString: string[] = fuzzyVersionString.split(".");
 
 		if (spitedString && spitedString.length > 0) {
@@ -185,6 +193,7 @@ export class NugetVersions {
 		}
 
 		let closestVersion: NugetVersions = sortedVersionArr[0];
+
 		let minDistance: number = NugetVersions.distance(
 			expectedVersion,
 			closestVersion,
@@ -211,9 +220,11 @@ export class NugetVersions {
 
 	private static compareIdentifiers(l: string, r: string): number {
 		const isLNumber: boolean = NumericRegExp.test(l);
+
 		const isRNumber: boolean = NumericRegExp.test(r);
 
 		let lNumber: number = -1;
+
 		let rNumber: number = -1;
 
 		if (isLNumber && isRNumber) {

@@ -243,6 +243,7 @@ export class PowerQueryTaskProvider implements vscode.TaskProvider {
 			) {
 				const args: string[] = buildPqTestArgs(taskDef);
 				args.push(currentWorkingFolder);
+
 				const processExecution: vscode.ProcessExecution =
 					new vscode.ProcessExecution(makePQXExe, args);
 
@@ -279,6 +280,7 @@ export class PowerQueryTaskProvider implements vscode.TaskProvider {
 		executablePath: string,
 	): vscode.Task {
 		const args: string[] = buildPqTestArgs(taskDef);
+
 		const processExecution: vscode.ProcessExecution =
 			new vscode.ProcessExecution(executablePath, args);
 

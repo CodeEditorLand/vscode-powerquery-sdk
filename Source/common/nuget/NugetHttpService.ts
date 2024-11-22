@@ -22,6 +22,7 @@ export class NugetHttpService extends NugetLiteHttpService {
 			`Failed to request to public nuget endpoints due to ${error}`,
 		);
 	};
+
 	constructor(private readonly outputChannel?: PqSdkOutputChannelLight) {
 		super();
 	}
@@ -32,6 +33,7 @@ export class NugetHttpService extends NugetLiteHttpService {
 		outputLocation: string,
 	): Promise<void> {
 		const oneTmpDir: string = makeOneTmpDir();
+
 		const targetFilePath: string = path.join(
 			oneTmpDir,
 			`${packageName}.${packageVersion}.zip`,

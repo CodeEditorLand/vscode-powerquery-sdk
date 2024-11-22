@@ -13,7 +13,9 @@ import * as process from "process";
 const projectDirectory: string = process.cwd();
 
 const outDirectory: string = path.join(projectDirectory, "out");
+
 const distDirectory: string = path.join(projectDirectory, "dist");
+
 const webviewDistDirectory: string = path.join(projectDirectory, "webviewDist");
 
 [outDirectory, distDirectory, webviewDistDirectory].forEach((oneDirectory: string) => {

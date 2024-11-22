@@ -142,6 +142,7 @@ export class PqServiceHostClient
 	public override dispose(): void {
 		this.currentExtensionInfos.dispose();
 		this.currentCredentials.dispose();
+
 		super.dispose();
 	}
 

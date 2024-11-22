@@ -173,6 +173,7 @@ export class PqTestResultViewPanel implements IDisposable {
 
 	public static createOrShow(extensionUri: vscode.Uri): void {
 		// const column: ViewColumn | undefined = vscode.window.activeTextEditor?.viewColumn ?? undefined;
+
 		if (this.currentPanel) {
 			// reveal currentPanel to current column
 			this.currentPanel._panel.reveal();

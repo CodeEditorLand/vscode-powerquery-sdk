@@ -44,6 +44,7 @@ export function resolveTemplateSubstitutedValues(
 ): string {
 	if (str) {
 		let result: string = str;
+
 		let curMatch: RegExpExecArray | null =
 			TemplateSubstitutedValueRegexp.exec(result ?? "");
 
@@ -66,6 +67,7 @@ export function resolveTemplateSubstitutedValues(
 
 export function getNonce(): string {
 	let text: string = "";
+
 	const possible: string =
 		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 

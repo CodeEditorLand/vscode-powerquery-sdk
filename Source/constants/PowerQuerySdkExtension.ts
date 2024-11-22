@@ -57,13 +57,19 @@ const ConfigPathToTestConnectionFile: string =
     "}";
 
 const PQLanguageId: string = "powerquery";
+
 const PQLanguageServiceExtensionId: string = "powerquery.vscode-powerquery";
+
 const OutputChannelName: string = "Power Query SDK";
+
 const PowerQueryTaskType: string = PQLanguageId;
+
 const PQDebugType: string = PowerQueryTaskType;
 
 const NugetBaseFolder: string = ".nuget" as const;
+
 const InternalMsftPqSdkToolsNugetName: string = "Microsoft.PowerQuery.SdkTools" as const;
+
 const PublicMsftPqSdkToolsNugetName: string = InternalMsftPqSdkToolsNugetName;
 /**
  *  Inclusive maximum nuget version
@@ -94,6 +100,7 @@ function buildNugetPackageSubPath(packageName: string, version: string): string[
 }
 
 const NugetDownloadUrl: string = "https://www.nuget.org/downloads" as const;
+
 const MSBuildDownloadUrl: string = "https://visualstudio.microsoft.com/downloads/?q=build+tools" as const;
 
 /**

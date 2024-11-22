@@ -15,6 +15,7 @@ export type I18nRecord = typeof I18nRecordType;
 export type I18nKeys = RecordKeys<I18nRecord>;
 
 let defaultLocaleJson: I18nRecord = {} as I18nRecord;
+
 let currentLocaleJson: Partial<I18nRecord> = {};
 
 function createExtensionI18nRecord(): I18nRecord {
@@ -30,6 +31,7 @@ function createExtensionI18nRecord(): I18nRecord {
 }
 
 let i18nRecord: I18nRecord | undefined = undefined;
+
 let activateDefaultLocaleJsonDeferred:
 	| Promise<Partial<I18nRecord>>
 	| undefined = undefined;
@@ -39,6 +41,7 @@ const defaultLocaleJsonUrl = "i18n/pq-test-result-view.json";
 const noCacheHeaders = new Headers();
 noCacheHeaders.append("pragma", "no-cache");
 noCacheHeaders.append("cache-control", "no-cache");
+
 const noCacheGetInit = {
 	method: "GET",
 	headers: noCacheHeaders,
@@ -46,9 +49,11 @@ const noCacheGetInit = {
 
 export function handleLocaleChange(nextLocal = "en"): Promise<unknown> {
 	let targetUrl = defaultLocaleJsonUrl;
+
 	if (!activateDefaultLocaleJsonDeferred) {
 		activateDefaultLocaleJsonDeferred = (async () => {
 			const res = await fetch(defaultLocaleJsonUrl, noCacheGetInit);
+
 			if (res.ok) {
 				defaultLocaleJson = (await res.json()) as I18nRecord;
 				i18nRecord = createExtensionI18nRecord();
@@ -64,6 +69,7 @@ export function handleLocaleChange(nextLocal = "en"): Promise<unknown> {
 
 	const activateCurrentLocaleJsonDeferred = (async () => {
 		const res = await fetch(targetUrl, noCacheGetInit);
+
 		if (res.ok) {
 			currentLocaleJson = (await res.json()) as Partial<I18nRecord>;
 		}

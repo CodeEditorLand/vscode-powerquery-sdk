@@ -27,6 +27,7 @@ export async function executeBuildTaskAndAwaitIfNeeded(
 ): Promise<void> {
 	const nullableCurrentWorkspace: string | undefined =
 		getFirstWorkspaceFolder()?.uri.fsPath;
+
 	let needToRebuildBeforeEvaluation: boolean = true;
 
 	if (nullableCurrentWorkspace) {
@@ -120,6 +121,7 @@ export function formatArguments(args: string[]): string {
 
 		const shouldQuoted: boolean =
 			isLastArgParameter && !isCurrentArgumentParameter;
+
 		const shouldBreakLine: boolean = isCurrentArgumentParameter;
 
 		// formatting

@@ -59,6 +59,7 @@ import {
 const CommandPrefix: string = `powerquery.sdk.tools`;
 
 const validateProjectNameRegExp: RegExp = /[A-Za-z]+/;
+
 const templateFileBaseName: string = "PQConn";
 
 export class LifecycleCommands implements IDisposable {
@@ -341,6 +342,7 @@ export class LifecycleCommands implements IDisposable {
 				) {
 					const anyPqFiles: Uri[] =
 						await getAnyPqFileBeneathTheFirstWorkspace();
+
 					const nullableCurrentWorkspaceSettingPath:
 						| string
 						| undefined = getCurrentWorkspaceSettingPath();
@@ -415,6 +417,7 @@ export class LifecycleCommands implements IDisposable {
 			ExtensionConfigurations.autoDetection
 		) {
 			this.isSuggestingSetupCurrentWorkspace = true;
+
 			const anyPqFiles: Uri[] =
 				await getAnyPqFileBeneathTheFirstWorkspace();
 
@@ -480,6 +483,7 @@ export class LifecycleCommands implements IDisposable {
 
 		const nullableFirstWorkspaceUri: vscode.Uri | undefined =
 			getFirstWorkspaceFolder()?.uri;
+
 		let hasPQTestExtensionFileLocation: boolean = false;
 
 		if (ExtensionConfigurations.DefaultExtensionLocation) {
@@ -774,6 +778,7 @@ export class LifecycleCommands implements IDisposable {
 		const newPqTestLocation: string = path.dirname(
 			pqTestExecutableFullPath,
 		);
+
 		const histPqTestLocation: string | undefined =
 			ExtensionConfigurations.PQTestLocation;
 
@@ -1203,6 +1208,7 @@ export class LifecycleCommands implements IDisposable {
 	private async populateCredentialTemplate(template: any): Promise<string> {
 		const theAuthenticationKind: AuthenticationKind =
 			template.AuthenticationKind as AuthenticationKind;
+
 		let templateStr: string = JSON.stringify(template);
 
 		switch (theAuthenticationKind) {
@@ -1215,6 +1221,7 @@ export class LifecycleCommands implements IDisposable {
 				);
 
 				break;
+
 			case "Aad":
 			case "OAuth":
 				// $$ACCESS_TOKEN$$
@@ -1236,6 +1243,7 @@ export class LifecycleCommands implements IDisposable {
 				);
 
 				break;
+
 			case "UsernamePassword":
 			case "Windows":
 				// $$USERNAME$$
@@ -1256,6 +1264,7 @@ export class LifecycleCommands implements IDisposable {
 				);
 
 				break;
+
 			case "Anonymous":
 			default:
 				break;
@@ -1806,6 +1815,7 @@ export class LifecycleCommands implements IDisposable {
 
 					const createAuthState: CreateAuthState =
 						await collectInputs();
+
 					const maybeErrorMessage: string | undefined =
 						this.validateCreateAuthState(createAuthState);
 

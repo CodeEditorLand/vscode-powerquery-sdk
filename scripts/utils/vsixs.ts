@@ -19,6 +19,7 @@ export function getFirstVsixFileDirectlyBeneathOneDirectory(
 	dirents.some((dirent: fs.Dirent) => {
 		if (!dirent.isDirectory() && dirent.name.endsWith(".vsix")) {
 			oneVsixFile = dirent.name;
+
 			return true;
 		}
 		return false;

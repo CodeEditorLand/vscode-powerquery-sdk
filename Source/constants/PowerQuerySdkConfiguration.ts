@@ -370,6 +370,7 @@ export const ExtensionConfigurations = {
 const NugetDownloadVscUrl: vscode.Uri = vscode.Uri.parse(
 	ExtensionConstants.NugetDownloadUrl,
 );
+
 const MSBuildDownloadVscUrl: vscode.Uri = vscode.Uri.parse(
 	ExtensionConstants.MSBuildDownloadUrl,
 );

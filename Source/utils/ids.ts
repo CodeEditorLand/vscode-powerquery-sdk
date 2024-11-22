@@ -7,6 +7,7 @@
 
 const characters: string =
 	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
 const charactersLength: number = characters.length;
 
 export function makeId(length: number): string {

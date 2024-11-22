@@ -55,6 +55,7 @@ export class NugetLiteHttpService {
 	protected errorHandler: (error: Error) => void = () => {
 		// noop
 	};
+
 	constructor() {
 		this.updateAxiosInstance();
 	}
@@ -169,6 +170,7 @@ export class NugetLiteHttpService {
 		outputLocation: string,
 	): Promise<void> {
 		const writer: WriteStream = createWriteStream(outputLocation);
+
 		const packageNameInLowerCase: string = packageName.toLowerCase();
 
 		try {

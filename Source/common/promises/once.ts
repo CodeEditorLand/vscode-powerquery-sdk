@@ -12,11 +12,13 @@ import { AnyFunction } from "./types";
 
 export const once = <F extends AnyFunction>(fun: F): F => {
 	let result: ReturnType<F> | undefined = undefined;
+
 	let internalFun: F | undefined = fun;
 
 	return function (this: any) {
 		// eslint-disable-next-line @typescript-eslint/no-this-alias,no-invalid-this
 		const self: unknown = this as any;
+
 		const args: unknown[] = [...arguments];
 
 		if (internalFun) {

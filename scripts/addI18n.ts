@@ -13,7 +13,9 @@ import * as vfs from "vinyl-fs";
 import * as nls from "vscode-nls-dev";
 
 const projectDirectory: string = process.cwd();
+
 const i18nDirectory: string = path.join(projectDirectory, "localize", "i18n");
+
 const i18nDistDirectory: string = path.join(
 	projectDirectory,
 	"localize",

@@ -174,6 +174,7 @@ export class LifeCycleTaskTreeView
 	private _onDidChangeTreeData: EventEmitter<
 		LifecycleTreeViewItem | undefined
 	> = new EventEmitter();
+
 	get onDidChangeTreeData(): Event<
 		void | LifecycleTreeViewItem | undefined | null
 	> {

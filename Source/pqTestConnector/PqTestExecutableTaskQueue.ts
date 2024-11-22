@@ -236,6 +236,7 @@ export class PqTestExecutableTaskQueue implements IPQTestService, IDisposable {
 		const pidString: string = fs
 			.readFileSync(thePidFileLocation)
 			.toString("utf8");
+
 		const result: number | undefined = convertStringToInteger(pidString);
 
 		if (typeof result === "number") {
@@ -306,6 +307,7 @@ export class PqTestExecutableTaskQueue implements IPQTestService, IDisposable {
 			if (pendingTask) {
 				// do fork one process and execute the task
 				const pqTestExeFullPath: string = this.pqTestFullPath;
+
 				const processArgs: string[] = buildPqTestArgs(pendingTask);
 
 				this.outputChannel.appendInfoLine(
@@ -462,6 +464,7 @@ export class PqTestExecutableTaskQueue implements IPQTestService, IDisposable {
 		// PQTestLocation getter
 		const nextPQTestLocation: string | undefined =
 			ExtensionConfigurations.PQTestLocation;
+
 		const pqTestExe: string | undefined =
 			this.resolvePQTestPath(nextPQTestLocation);
 
@@ -610,6 +613,7 @@ export class PqTestExecutableTaskQueue implements IPQTestService, IDisposable {
 		let payloadStr: string | undefined = undefined;
 
 		let additionalArgs: string[] | undefined = [];
+
 		let theAuthKind: string = createAuthState.AuthenticationKind;
 
 		if (theAuthKind.toLowerCase() === "key") {

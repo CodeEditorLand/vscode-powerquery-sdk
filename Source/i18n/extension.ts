@@ -17,7 +17,9 @@ export type ExtensionI18nRecord = typeof defaultJson;
 export type ExtensionI18nKeys = RecordKeys<ExtensionI18nRecord>;
 
 const currentFolder: string = __dirname;
+
 let currentLocale: string = "en";
+
 let currentLocaleJson: Partial<ExtensionI18nRecord> = defaultJson;
 
 function createExtensionI18nRecord(): ExtensionI18nRecord {
@@ -34,6 +36,7 @@ function createExtensionI18nRecord(): ExtensionI18nRecord {
 
 export function handleLocaleChanged(nextLocale?: string): void {
 	nextLocale = nextLocale ?? ExtensionConfigurations.pqLocale;
+
 	const expectedLocalJsonPath: string = path.join(
 		currentFolder,
 		`extension.${nextLocale}.json`,
@@ -72,10 +75,12 @@ function doResolveI18nTemplate<R extends Record<string, string>>(
 	let result: string = i18nRecord[i18nKey];
 
 	I18nTemplateItemRegex.lastIndex = 0;
+
 	let curMatch: RegExpExecArray | null = I18nTemplateItemRegex.exec(result);
 
 	while (curMatch) {
 		const theMatchedArgumentName: string = curMatch[1];
+
 		let theReplacedStr: string = "";
 
 		if (

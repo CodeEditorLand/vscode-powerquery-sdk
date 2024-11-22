@@ -100,6 +100,7 @@ export class PqTestExecutableOnceTask implements IDisposable {
 			this.handleErrorStr(
 				extensionI18n["PQSdk.taskQueue.error.pqtestLocationNotSet"],
 			);
+
 			throw new Error("Failed to find PqTest executable");
 		} else if (!fs.existsSync(nextPQTestLocation)) {
 			this.handleErrorStr(
@@ -152,6 +153,7 @@ export class PqTestExecutableOnceTask implements IDisposable {
 				};
 
 				break;
+
 			case "credential-template":
 			case "set-credential":
 			case "refresh-credential":
@@ -166,6 +168,7 @@ export class PqTestExecutableOnceTask implements IDisposable {
 				};
 
 				break;
+
 			case "list-template":
 			case "delete-credential":
 			default:
@@ -182,6 +185,7 @@ export class PqTestExecutableOnceTask implements IDisposable {
 			this._pathToQueryFile = task.pathToQueryFile;
 			// do fork one process and execute the task
 			const pqTestExeFullPath: string = this.pqTestFullPath;
+
 			const processArgs: string[] = buildPqTestArgs(task);
 
 			this.handleTaskCreated();

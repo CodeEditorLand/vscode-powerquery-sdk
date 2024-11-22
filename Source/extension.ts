@@ -45,8 +45,10 @@ export function activate(vscExtCtx: vscode.ExtensionContext): void {
 	//          it basically does the Dependency Injection,
 	//          which could be replaced by *inversify* if we later really need to
 	const globalEventBus: GlobalEventBus = new GlobalEventBus(vscExtCtx);
+
 	const pqTestResultViewPanelDisposable: IDisposable =
 		PqTestResultViewPanel.activate(vscExtCtx);
+
 	const pqSdkOutputChannel: PqSdkOutputChannel = new PqSdkOutputChannel();
 
 	const pqSdkNugetPackageService: PqSdkNugetPackageService =

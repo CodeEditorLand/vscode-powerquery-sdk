@@ -277,6 +277,7 @@ export class CancellationToken implements IVscCancellationToken {
 			this._handlers = undefined;
 
 			const { promise, resolve }: DeferredResult<void> = defer<void>();
+
 			let wait: number = 0;
 
 			const onSettled: () => void = () => {
@@ -311,6 +312,7 @@ export class CancellationToken implements IVscCancellationToken {
 export class CancellationTokenSource {
 	public token: CancellationToken;
 	public cancel: CancelAction;
+
 	constructor(dependents: CancellationToken[] = []) {
 		this.cancel = (_: string | Cancel): void => {
 			// noop
