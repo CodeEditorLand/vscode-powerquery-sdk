@@ -5,10 +5,10 @@
  * LICENSE file in the root of this projects source tree.
  */
 
-import * as glob from "glob";
 import * as fs from "fs";
 import * as path from "path";
 import * as process from "process";
+import * as glob from "glob";
 
 const projectDirectory: string = process.cwd();
 
@@ -18,14 +18,19 @@ const distDirectory: string = path.join(projectDirectory, "dist");
 
 const webviewDistDirectory: string = path.join(projectDirectory, "webviewDist");
 
-[outDirectory, distDirectory, webviewDistDirectory].forEach((oneDirectory: string) => {
-    if (fs.existsSync(oneDirectory)) {
-        fs.rmSync(oneDirectory, { force: true, recursive: true });
-    }
-});
+[outDirectory, distDirectory, webviewDistDirectory].forEach(
+	(oneDirectory: string) => {
+		if (fs.existsSync(oneDirectory)) {
+			fs.rmSync(oneDirectory, { force: true, recursive: true });
+		}
+	},
+);
 
-const otherPackageNlsJsonsGlob: string[] = glob.globSync("package.nls.**.json", { cwd: projectDirectory });
+const otherPackageNlsJsonsGlob: string[] = glob.globSync(
+	"package.nls.**.json",
+	{ cwd: projectDirectory },
+);
 
 otherPackageNlsJsonsGlob.forEach((oneNlsJson: string) => {
-    fs.unlinkSync(path.join(projectDirectory, oneNlsJson));
+	fs.unlinkSync(path.join(projectDirectory, oneNlsJson));
 });
