@@ -14,6 +14,7 @@ import { replaceAt } from "../utils/strings";
 import { RecordKeys } from "../utils/types";
 
 export type ExtensionI18nRecord = typeof defaultJson;
+
 export type ExtensionI18nKeys = RecordKeys<ExtensionI18nRecord>;
 
 const currentFolder: string = __dirname;

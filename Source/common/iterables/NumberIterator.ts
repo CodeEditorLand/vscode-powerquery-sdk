@@ -11,8 +11,11 @@ export const DONE: IteratorReturnResult<undefined> = {
 };
 
 export type NumberIteratorResult = IteratorResult<number, undefined>;
+
 export type IterableNumbers = () => NumberIteratorResult;
+
 export type NumberMapper = (para: number) => number;
+
 export type NumberGenerator = () => NumberIterator;
 
 const toMsMapper: NumberMapper = (x: number) => Math.floor(x * 1e3);

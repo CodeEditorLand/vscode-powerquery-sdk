@@ -7,6 +7,7 @@
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export type AnyFunction = (...args: any[]) => any;
+
 export type AnyReturnedFunction<T = any> = (...args: any[]) => T;
 
 export type UnknownFunction = (...args: unknown[]) => unknown;

@@ -12,6 +12,7 @@ import { useVSCodeContextProps } from "./contexts/VscodeContexts";
 import { RecordKeys } from "./utils/types";
 
 export type I18nRecord = typeof I18nRecordType;
+
 export type I18nKeys = RecordKeys<I18nRecord>;
 
 let defaultLocaleJson: I18nRecord = {} as I18nRecord;

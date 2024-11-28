@@ -17,6 +17,7 @@ const ReleasedVersionRegExp: RegExp =
 	/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/;
 
 const NumericRegExp: RegExp = /^[0-9]+$/;
+
 export class NugetVersions {
 	public static ZERO_VERSION: NugetVersions = new NugetVersions(
 		"0",
