@@ -39,19 +39,24 @@ export class PqTestExecutableOnceTask implements IDisposable {
 
 	// threadId
 	private _threadId: number = NaN;
+
 	public get threadId(): number {
 		return this._threadId;
 	}
+
 	private _pathToQueryFile?: string;
+
 	public get pathToQueryFile(): string {
 		return this._pathToQueryFile ?? "";
 	}
 
 	public readonly eventBus: DisposableEventEmitter<PqTestExecutableOnceTaskEventTypes>;
+
 	protected _disposables: Array<IDisposable> = [];
 
 	constructor() {
 		this.eventBus = new DisposableEventEmitter();
+
 		this._disposables.unshift(this.eventBus);
 	}
 
@@ -182,6 +187,7 @@ export class PqTestExecutableOnceTask implements IDisposable {
 	public async run(program: string, task: PQTestTask): Promise<void> {
 		try {
 			task = this.populateTestTaskPayload(program, task);
+
 			this._pathToQueryFile = task.pathToQueryFile;
 			// do fork one process and execute the task
 			const pqTestExeFullPath: string = this.pqTestFullPath;

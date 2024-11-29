@@ -25,6 +25,7 @@ async function doE2eTest() {
 
 	// Performs all necessary setup: getting VSCode + ChromeDriver into the test instance
 	await extTest.downloadCode();
+
 	await extTest.downloadChromeDriver();
 
 	// Install the extension into the test instance of VS Code

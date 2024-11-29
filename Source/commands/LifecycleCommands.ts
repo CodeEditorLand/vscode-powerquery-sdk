@@ -64,22 +64,35 @@ const templateFileBaseName: string = "PQConn";
 
 export class LifecycleCommands implements IDisposable {
 	static SeizePqTestCommand: string = `${CommandPrefix}.SeizePqTestCommand`;
+
 	static BuildProjectCommand: string = `${CommandPrefix}.BuildProjectCommand`;
+
 	static SetupCurrentWorkspaceCommand: string = `${CommandPrefix}.SetupCurrentWorkspaceCommand`;
+
 	static CreateNewProjectCommand: string = `${CommandPrefix}.CreateNewProjectCommand`;
+
 	static DeleteCredentialCommand: string = `${CommandPrefix}.DeleteCredentialCommand`;
+
 	static DisplayExtensionInfoCommand: string = `${CommandPrefix}.DisplayExtensionInfoCommand`;
+
 	static ListCredentialCommand: string = `${CommandPrefix}.ListCredentialCommand`;
+
 	static GenerateAndSetCredentialCommand: string = `${CommandPrefix}.GenerateAndSetCredentialCommand`;
+
 	static RefreshCredentialCommand: string = `${CommandPrefix}.RefreshCredentialCommand`;
+
 	static RunTestBatteryCommand: string = `${CommandPrefix}.RunTestBatteryCommand`;
+
 	static TestConnectionCommand: string = `${CommandPrefix}.TestConnectionCommand`;
 
 	private isSuggestingSetupCurrentWorkspace: boolean = false;
+
 	private readonly initPqSdkTool$deferred: Promise<string | undefined>;
+
 	private checkAndTryToUpdatePqTestDeferred$:
 		| Promise<string | undefined>
 		| undefined;
+
 	private currentPqTestVersion: string =
 		ExtensionConstants.SuggestedPqTestNugetVersion;
 
@@ -187,6 +200,7 @@ export class LifecycleCommands implements IDisposable {
 	}
 
 	private intervalTaskHandler: NodeJS.Timeout | undefined;
+
 	private activateIntervalTasks(): void {
 		// update lastMtimeOfMezFileWhoseInfoSeized once its info:static-type-check got re-eval
 		this.pqTestService.currentExtensionInfos.subscribe(() => {
@@ -230,6 +244,7 @@ export class LifecycleCommands implements IDisposable {
 	private disposeIntervalTasks(): void {
 		if (this.intervalTaskHandler) {
 			clearInterval(this.intervalTaskHandler);
+
 			this.intervalTaskHandler = undefined;
 		}
 	}
@@ -241,13 +256,17 @@ export class LifecycleCommands implements IDisposable {
 
 	private currentIncorrectConnectorPathInSettingGotPromptedBefore: boolean =
 		false;
+
 	private lastMtimeOfMezFileWhoseInfoSeized: Date = new Date(0);
+
 	private onGoingDisplayLatestExtensionInfoCommand:
 		| {
 				ctime: Date;
+
 				deferred: Promise<unknown>;
 		  }
 		| undefined = undefined;
+
 	private promptSettingIncorrectOrInvokeInfoTaskIfNeeded(): void {
 		const currentPQTestExtensionFileLocation: string | undefined =
 			ExtensionConfigurations.DefaultExtensionLocation;
@@ -307,6 +326,7 @@ export class LifecycleCommands implements IDisposable {
 						) {
 							this.onGoingDisplayLatestExtensionInfoCommand =
 								undefined;
+
 							this.lastMtimeOfMezFileWhoseInfoSeized =
 								currentMtime;
 						}
@@ -383,8 +403,11 @@ export class LifecycleCommands implements IDisposable {
 	}
 
 	private currentExecuteTimeOfExtensionDisplayingInfo: Date | undefined;
+
 	private currentCtimeOfExtensionDisplayingInfo: Date | undefined;
+
 	private currentDisplayInfoDeferred$: Promise<void> | undefined;
+
 	private displayLatestExtensionInfoCommand(
 		targetCTime: Date,
 	): Promise<unknown> {
@@ -399,7 +422,9 @@ export class LifecycleCommands implements IDisposable {
 				1e4
 		) {
 			this.currentExecuteTimeOfExtensionDisplayingInfo = new Date();
+
 			this.currentCtimeOfExtensionDisplayingInfo = targetCTime;
+
 			this.currentDisplayInfoDeferred$ =
 				this.displayExtensionInfoCommand();
 		}
@@ -462,6 +487,7 @@ export class LifecycleCommands implements IDisposable {
 			if (!pqTestServiceReady) {
 				const curPqTestPath: string | undefined =
 					await this.checkAndTryToUpdatePqTest();
+
 				pqTestServiceReady = Boolean(curPqTestPath);
 			}
 
@@ -664,6 +690,7 @@ export class LifecycleCommands implements IDisposable {
 			content = resolveTemplateSubstitutedValues(content, {
 				ProjectName: projectName,
 			});
+
 			fs.writeFileSync(path.resolve(folder, targetFileName), content, {
 				encoding: "utf8",
 			});
@@ -783,7 +810,9 @@ export class LifecycleCommands implements IDisposable {
 			ExtensionConfigurations.PQTestLocation;
 
 		await ExtensionConfigurations.setPQTestLocation(newPqTestLocation);
+
 		this.currentPqTestVersion = theNextVersion;
+
 		await ExtensionConfigurations.setPQTestVersion(theNextVersion);
 
 		if (histPqTestLocation === newPqTestLocation) {
@@ -1023,6 +1052,7 @@ export class LifecycleCommands implements IDisposable {
 				progress: Progress<{ increment?: number; message?: string }>,
 			) => {
 				progress.report({ increment: 0 });
+
 				this.outputChannel.show();
 
 				try {
@@ -1070,6 +1100,7 @@ export class LifecycleCommands implements IDisposable {
 				progress: Progress<{ increment?: number; message?: string }>,
 			) => {
 				progress.report({ increment: 0 });
+
 				this.outputChannel.show();
 
 				try {
@@ -1137,6 +1168,7 @@ export class LifecycleCommands implements IDisposable {
 				progress: Progress<{ increment?: number; message?: string }>,
 			) => {
 				progress.report({ increment: 0 });
+
 				this.outputChannel.show();
 
 				try {
@@ -1286,6 +1318,7 @@ export class LifecycleCommands implements IDisposable {
 				progress: Progress<{ increment?: number; message?: string }>,
 			) => {
 				progress.report({ increment: 0 });
+
 				this.outputChannel.show();
 
 				try {
@@ -1481,6 +1514,7 @@ export class LifecycleCommands implements IDisposable {
 					async function collectInputs(): Promise<CreateAuthState> {
 						const state: Partial<CreateAuthState> =
 							{} as Partial<CreateAuthState>;
+
 						await MultiStepInput.run((input: MultiStepInput) =>
 							populateDataSourceKinds(input, state),
 						);
@@ -1900,6 +1934,7 @@ export class LifecycleCommands implements IDisposable {
 				progress: Progress<{ increment?: number; message?: string }>,
 			) => {
 				progress.report({ increment: 0 });
+
 				this.outputChannel.show();
 
 				try {
@@ -1991,6 +2026,7 @@ export class LifecycleCommands implements IDisposable {
 			await vscode.commands.executeCommand(
 				PqTestResultViewPanel.ShowResultWebViewCommand,
 			);
+
 			SimplePqTestResultViewBroker.values.latestPqTestResult.emit(result);
 		}
 	}
@@ -2008,6 +2044,7 @@ export class LifecycleCommands implements IDisposable {
 				progress: Progress<{ increment?: number; message?: string }>,
 			) => {
 				progress.report({ increment: 0 });
+
 				this.outputChannel.show();
 
 				try {

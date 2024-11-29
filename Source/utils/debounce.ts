@@ -16,6 +16,7 @@ export function debounce<Args extends Array<unknown> = any[]>(
 
 	return function (...args: Args) {
 		const _args: Args = (args?.slice() ?? []) as Args;
+
 		timeout && clearTimeout(timeout);
 
 		timeout = setTimeout(function () {

@@ -56,6 +56,7 @@ type PqTestExecutableTaskQueueEventTypes = ExtractEventTypes<
 interface PqTestExecutableTask extends PQTestTask {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	resolve: (res: any) => void;
+
 	reject: (reason: Error | string) => void;
 }
 
@@ -85,27 +86,40 @@ export class PqTestExecutableDetailedTaskError extends Error {
 		super(
 			`${details}, failed to execute ${pqTestExeFullPath} ${formatArguments(processArgs)}`,
 		);
+
 		this.processExit = processExit;
 	}
 }
 
 export class PqTestExecutableTaskQueue implements IPQTestService, IDisposable {
 	public static readonly ExecutableName: string = "PQTest.exe";
+
 	public static readonly ExecutablePidLockFileName: string = "pqTest.pid";
 
 	private readonly eventBus: DisposableEventEmitter<PqTestExecutableTaskQueueEventTypes>;
+
 	private readonly pidLockFileLocation: string;
+
 	private firstTimeReady: boolean = true;
+
 	private lastPqRelatedFileTouchedDate: Date = new Date(0);
+
 	private onPQTestExecutablePidChangedFsWatcher: FSWatcher | undefined =
 		undefined;
+
 	private pendingTasks: PqTestExecutableTask[] = [];
+
 	protected _disposables: Array<IDisposable> = [];
+
 	pqTestReady: boolean = false;
+
 	pqTestLocation: string = "";
+
 	pqTestFullPath: string = "";
+
 	public readonly currentExtensionInfos: ValueEventEmitter<ExtensionInfo[]> =
 		new ValueEventEmitter<ExtensionInfo[]>([]);
+
 	public readonly currentCredentials: ValueEventEmitter<Credential[]> =
 		new ValueEventEmitter<Credential[]>([]);
 
@@ -116,6 +130,7 @@ export class PqTestExecutableTaskQueue implements IPQTestService, IDisposable {
 	) {
 		// init instance fields
 		this.eventBus = new DisposableEventEmitter();
+
 		this._disposables.unshift(this.eventBus);
 
 		this.pidLockFileLocation = path.resolve(
@@ -184,6 +199,7 @@ export class PqTestExecutableTaskQueue implements IPQTestService, IDisposable {
 		}
 
 		this.currentExtensionInfos.dispose();
+
 		this.currentCredentials.dispose();
 	};
 
@@ -262,6 +278,7 @@ export class PqTestExecutableTaskQueue implements IPQTestService, IDisposable {
 		// create or wipe pidLockFile
 		if (!fs.existsSync(this.pidLockFileLocation)) {
 			this.doWritePid(curPid);
+
 			this.outputChannel.appendTraceLine(
 				`Create empty pqTest pid file: ${this.pidLockFileLocation}`,
 			);
@@ -274,6 +291,7 @@ export class PqTestExecutableTaskQueue implements IPQTestService, IDisposable {
 				!pidIsRunning(pidNumber.valueOf())
 			) {
 				this.doWritePid(curPid);
+
 				this.outputChannel.appendTraceLine(
 					`Wipe out pqTest pid file: ${this.pidLockFileLocation}`,
 				);
@@ -388,6 +406,7 @@ export class PqTestExecutableTaskQueue implements IPQTestService, IDisposable {
 						// remove non-printable and other non-valid JSON chars
 						// eslint-disable-next-line no-control-regex
 						stdOutStr = stdOutStr.replace(/[\u0000-\u0019]+/g, "");
+
 						resultJson = JSON.parse(stdOutStr);
 					} catch (e) {
 						// noop
@@ -449,6 +468,7 @@ export class PqTestExecutableTaskQueue implements IPQTestService, IDisposable {
 		const result: Promise<T> = new Promise<T>(
 			(resolve: (value: T) => void, reject: (reason?: any) => void) => {
 				theTask.resolve = resolve;
+
 				theTask.reject = reject;
 			},
 		);
@@ -470,11 +490,15 @@ export class PqTestExecutableTaskQueue implements IPQTestService, IDisposable {
 
 		if (!pqTestExe || !nextPQTestLocation) {
 			this.pqTestReady = false;
+
 			this.pqTestLocation = "";
+
 			this.pqTestFullPath = "";
 		} else {
 			this.pqTestReady = true;
+
 			this.pqTestLocation = nextPQTestLocation;
+
 			this.pqTestFullPath = pqTestExe;
 
 			this.outputChannel.appendInfoLine(
@@ -668,6 +692,7 @@ export class PqTestExecutableTaskQueue implements IPQTestService, IDisposable {
 		if (payloadStr === undefined) {
 			// AuthenticationKind must be specified if it's not provided in the json input
 			additionalArgs.unshift(`${theAuthKind}`);
+
 			additionalArgs.unshift(`-ak`);
 		}
 

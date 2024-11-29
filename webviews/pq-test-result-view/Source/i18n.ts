@@ -57,11 +57,14 @@ export function handleLocaleChange(nextLocal = "en"): Promise<unknown> {
 
 			if (res.ok) {
 				defaultLocaleJson = (await res.json()) as I18nRecord;
+
 				i18nRecord = createExtensionI18nRecord();
 			}
+
 			return defaultLocaleJson;
 		})();
 	}
+
 	if (nextLocal.toLowerCase() === "en") {
 		return activateDefaultLocaleJsonDeferred;
 	} else {
@@ -74,6 +77,7 @@ export function handleLocaleChange(nextLocal = "en"): Promise<unknown> {
 		if (res.ok) {
 			currentLocaleJson = (await res.json()) as Partial<I18nRecord>;
 		}
+
 		return currentLocaleJson;
 	})();
 

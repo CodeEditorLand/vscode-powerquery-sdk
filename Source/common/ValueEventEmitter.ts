@@ -23,7 +23,9 @@ interface Options {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export class ValueEventEmitter<T = any> implements IDisposable {
 	private _listeners: ValueUpdateListener<T>[] = [];
+
 	private resolveInit: ((value: T) => void) | undefined = undefined;
+
 	public readonly init: Promise<T>;
 
 	constructor(
@@ -54,6 +56,7 @@ export class ValueEventEmitter<T = any> implements IDisposable {
 
 		if (this.resolveInit) {
 			this.resolveInit(this.value);
+
 			this.resolveInit = undefined;
 		}
 

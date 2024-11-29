@@ -36,6 +36,7 @@ export class PqServiceHostClient
 
 	public readonly currentExtensionInfos: ValueEventEmitter<ExtensionInfo[]> =
 		new ValueEventEmitter<ExtensionInfo[]>([]);
+
 	public readonly currentCredentials: ValueEventEmitter<Credential[]> =
 		new ValueEventEmitter<Credential[]>([]);
 
@@ -135,12 +136,14 @@ export class PqServiceHostClient
 	private stopSendingPingMessages(): void {
 		if (this.pingTimer) {
 			clearInterval(this.pingTimer);
+
 			this.pingTimer = undefined;
 		}
 	}
 
 	public override dispose(): void {
 		this.currentExtensionInfos.dispose();
+
 		this.currentCredentials.dispose();
 
 		super.dispose();

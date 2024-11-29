@@ -22,6 +22,7 @@ import { resolveSubstitutedValues } from "../utils/vscodes";
 
 export class PqSdkTaskTerminal implements vscode.Pseudoterminal {
 	public static LineFeed: string = os.platform() === "win32" ? "\r\n" : "\n";
+
 	public static getTaskForPQTestTaskDefinition(
 		taskDefinition: PowerQueryTaskDefinition,
 	): vscode.Task {
@@ -37,11 +38,15 @@ export class PqSdkTaskTerminal implements vscode.Pseudoterminal {
 	}
 
 	private readonly pqServiceHostClientLite: PqServiceHostClientLite;
+
 	private writeEmitter: vscode.EventEmitter<string> =
 		new vscode.EventEmitter<string>();
+
 	onDidWrite: vscode.Event<string> = this.writeEmitter.event;
+
 	private readonly closeEmitter: vscode.EventEmitter<number> =
 		new vscode.EventEmitter<number>();
+
 	onDidClose?: vscode.Event<number> = this.closeEmitter.event;
 
 	constructor(private readonly taskDefinition: PowerQueryTaskDefinition) {
@@ -210,6 +215,7 @@ export class PqSdkTaskTerminal implements vscode.Pseudoterminal {
 			}
 
 			this.closeEmitter.fire(-1);
+
 			this.pqServiceHostClientLite.dispose();
 		}
 	}
@@ -220,6 +226,7 @@ export class PqSdkTaskTerminal implements vscode.Pseudoterminal {
 
 	public appendLineWithTimeStamp(line: string): void {
 		const now: Date = new Date();
+
 		this.appendLine(`[${now.toLocaleTimeString()}]\t${line}`);
 	}
 

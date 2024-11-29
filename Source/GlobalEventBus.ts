@@ -51,11 +51,13 @@ export class GlobalEventBus
 	implements IDisposable
 {
 	private firstWorkspaceRootFilesWatcher: FSWatcher | undefined = undefined;
+
 	private closeFirstWorkspaceRootFilesWatcherIfNeeded(): void {
 		if (this.firstWorkspaceRootFilesWatcher) {
 			this.firstWorkspaceRootFilesWatcher.close();
 		}
 	}
+
 	private reWatchFirstWorkspaceRootFilesWatcherIfCould(): void {
 		const firstWorkspace: vscode.WorkspaceFolder | undefined =
 			getFirstWorkspaceFolder();
@@ -82,6 +84,7 @@ export class GlobalEventBus
 		},
 	) {
 		super(options);
+
 		this.reWatchFirstWorkspaceRootFilesWatcherIfCould();
 
 		vscode.workspace.onDidChangeWorkspaceFolders(
@@ -89,6 +92,7 @@ export class GlobalEventBus
 				this.emit(
 					GlobalEvents.VSCodeEvents.onDidChangeWorkspaceFolders,
 				);
+
 				this.reWatchFirstWorkspaceRootFilesWatcherIfCould();
 			},
 		);
@@ -183,6 +187,7 @@ export class GlobalEventBus
 							)
 						) {
 							handleLocaleChanged();
+
 							SimplePqTestResultViewBroker.values.locale.emit(
 								ExtensionConfigurations.pqLocale,
 							);

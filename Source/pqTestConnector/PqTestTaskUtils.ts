@@ -44,6 +44,7 @@ export async function executeBuildTaskAndAwaitIfNeeded(
 			const theMtimeOfTheFile: Date = getMtimeOfAFile(
 				currentlyAllMezFiles[0],
 			);
+
 			needToRebuildBeforeEvaluation =
 				theMtimeOfTheFile <= lastPqRelatedFileTouchedDate;
 		} else {

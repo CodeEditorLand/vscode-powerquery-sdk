@@ -12,17 +12,23 @@ type RejectHandler = (reason: any) => void;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export class DeferredValue<T = any> {
 	public readonly deferred$: Promise<T>;
+
 	private _value: T;
+
 	private _resolve: ResolveHandler<T> | undefined = undefined;
+
 	private _reject: RejectHandler | undefined = undefined;
+
 	private _timeoutHandler: NodeJS.Timeout | undefined = undefined;
 
 	private cleanUpHandlers(): void {
 		this._resolve = undefined;
+
 		this._resolve = undefined;
 
 		if (this._timeoutHandler) {
 			clearTimeout(this._timeoutHandler);
+
 			this._timeoutHandler = undefined;
 		}
 	}
@@ -30,6 +36,7 @@ export class DeferredValue<T = any> {
 	public resolve(value: T): void {
 		if (this._resolve) {
 			this._resolve(value);
+
 			this.cleanUpHandlers();
 		}
 	}
@@ -38,6 +45,7 @@ export class DeferredValue<T = any> {
 	public reject(reason: any): void {
 		if (this._reject) {
 			this._reject(reason);
+
 			this.cleanUpHandlers();
 		}
 	}
@@ -49,6 +57,7 @@ export class DeferredValue<T = any> {
 	set value(val: T) {
 		if (this.resolve) {
 			this._value = val;
+
 			this.resolve(val);
 		}
 	}
@@ -59,6 +68,7 @@ export class DeferredValue<T = any> {
 		this.deferred$ = new Promise(
 			(resolve: ResolveHandler<T>, reject: RejectHandler) => {
 				this.resolve = resolve;
+
 				this.reject = reject;
 			},
 		);
@@ -66,6 +76,7 @@ export class DeferredValue<T = any> {
 		if (timeout) {
 			this._timeoutHandler = setTimeout(() => {
 				this._timeoutHandler = undefined;
+
 				this.reject(new Error("DeferredValue timeout"));
 			});
 		}

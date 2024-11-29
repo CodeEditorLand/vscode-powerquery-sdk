@@ -51,6 +51,7 @@ export class NugetCommandService {
 		this.outputChannel?.appendDebugLine(
 			`Listing nuget packages using nuget.exe`,
 		);
+
 		this.outputChannel?.appendInfoLine(
 			`Running ${command} ${args.join(" ")}`,
 		);
@@ -127,6 +128,7 @@ export class NugetCommandService {
 		this.outputChannel?.appendDebugLine(
 			`Installing nuget packages using nuget.exe`,
 		);
+
 		this.outputChannel?.appendInfoLine(
 			`Running ${command} ${args.join(" ")}`,
 		);
@@ -177,6 +179,7 @@ export class NugetCommandService {
 		packageName: string,
 		options: {
 			maximumNugetVersion?: NugetVersions;
+
 			minimumNugetVersion?: NugetVersions;
 		} = {},
 	): Promise<NugetVersions[]> {

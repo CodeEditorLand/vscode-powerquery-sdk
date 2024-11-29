@@ -14,15 +14,20 @@ import { OperationType } from "./OperationType";
 
 export interface PowerQueryTask {
 	readonly operation: OperationType;
+
 	readonly additionalArgs?: string[];
+
 	readonly label?: string;
 }
 
 export interface PQTestTask extends PowerQueryTask {
 	// TODO: Are we using "Connector" or "Extension" terminology?
 	readonly pathToConnector?: string;
+
 	readonly pathToQueryFile?: string;
+
 	readonly stdinStr?: string;
+
 	readonly credentialTemplate?: object;
 }
 

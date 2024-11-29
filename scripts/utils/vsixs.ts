@@ -22,6 +22,7 @@ export function getFirstVsixFileDirectlyBeneathOneDirectory(
 
 			return true;
 		}
+
 		return false;
 	});
 

@@ -189,6 +189,7 @@ export function resolveSubstitutedValues(
 
 		const tryToFindOneMatched = (): void => {
 			matchedType = SubstitutedValueMatchedStatus.NONE;
+
 			curMatch = RegularSubstitutedValueRegexp.exec(result);
 
 			if (

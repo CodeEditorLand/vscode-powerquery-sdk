@@ -42,6 +42,7 @@ export class PqSdkOutputChannel implements OutputChannel, IDisposable {
 
 	public appendLineWithTimeStamp(line: string): void {
 		const now: Date = new Date();
+
 		this.appendLine(`[${now.toLocaleTimeString()}]\t${line}`);
 	}
 
@@ -77,7 +78,9 @@ export class PqSdkOutputChannel implements OutputChannel, IDisposable {
 	}
 
 	show(preserveFocus?: boolean): void;
+
 	show(column?: ViewColumn, preserveFocus?: boolean): void;
+
 	show(...args: unknown[]): void {
 		this._channel.show(...(args as Parameters<OutputChannel["show"]>));
 	}

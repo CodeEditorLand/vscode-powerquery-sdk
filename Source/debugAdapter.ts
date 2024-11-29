@@ -49,7 +49,9 @@ if (port > 0) {
 		});
 
 		const session: MQueryDebugSession = new MQueryDebugSession();
+
 		session.setRunAsServer(true);
+
 		session.start(socket, socket);
 	}).listen(port);
 } else {

@@ -392,6 +392,7 @@ export async function promptWarningMessageForExternalDependency(
 				"vscode.open",
 				MSBuildDownloadVscUrl,
 			);
+
 			void vscode.commands.executeCommand(
 				"vscode.open",
 				NugetDownloadVscUrl,

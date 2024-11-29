@@ -13,5 +13,6 @@ export const flattenJSON = (obj: any = {}, res: any = {}, extraKey = "") => {
 			flattenJSON(obj[key], res, `${extraKey}${key}.`);
 		}
 	}
+
 	return res;
 };

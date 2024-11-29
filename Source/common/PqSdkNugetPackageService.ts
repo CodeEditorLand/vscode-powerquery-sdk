@@ -20,13 +20,16 @@ import { NugetHttpService } from "./nuget/NugetHttpService";
 
 export class PqSdkNugetPackageService {
 	private readonly nugetHttpService: NugetHttpService;
+
 	private readonly nugetCommandService: NugetCommandService;
+
 	private readonly nullableMaximumPqTestNugetVersion?: NugetVersions =
 		ExtensionConstants.MaximumPqTestNugetVersion
 			? NugetVersions.createFromFuzzyVersionString(
 					ExtensionConstants.MaximumPqTestNugetVersion,
 				)
 			: undefined;
+
 	private readonly nullableMinimumPqTestNugetVersion?: NugetVersions =
 		ExtensionConstants.MinimumPqTestNugetVersion
 			? NugetVersions.createFromFuzzyVersionString(
@@ -40,6 +43,7 @@ export class PqSdkNugetPackageService {
 		readonly outputChannel?: PqSdkOutputChannel,
 	) {
 		this.nugetHttpService = new NugetHttpService(outputChannel);
+
 		this.nugetCommandService = new NugetCommandService(
 			vscExtCtx.extensionPath,
 			outputChannel,
@@ -67,6 +71,7 @@ export class PqSdkNugetPackageService {
 	public async findNullableNewPqSdkVersion(
 		options: {
 			maximumNugetVersion?: NugetVersions;
+
 			minimumNugetVersion?: NugetVersions;
 		} = {},
 	): Promise<string | undefined> {

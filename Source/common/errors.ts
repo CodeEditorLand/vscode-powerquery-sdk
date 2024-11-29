@@ -15,6 +15,7 @@ export class BaseError extends Error {
 	 */
 	captureStackTrace(): string | undefined {
 		const container: Error = new Error();
+
 		this.stack = container.stack;
 
 		return this.stack;

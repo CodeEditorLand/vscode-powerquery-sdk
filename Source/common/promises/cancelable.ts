@@ -47,6 +47,7 @@ export const cancelable = <F extends AnyReturnedFunction<Promise<unknown>>>(
 				new CancellationTokenSource();
 
 			const newArgs: unknown[] = new Array(length + 1);
+
 			newArgs[0] = cancellationTokenSource.token;
 
 			for (let i: number = 0; i < length; ++i) {
@@ -58,6 +59,7 @@ export const cancelable = <F extends AnyReturnedFunction<Promise<unknown>>>(
 				this,
 				newArgs,
 			) as unknown as InternalPromise;
+
 			promise.cancel = cancellationTokenSource.cancel;
 
 			return promise as unknown as ReturnType<F>;

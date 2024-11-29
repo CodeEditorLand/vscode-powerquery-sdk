@@ -156,6 +156,7 @@ export class PowerQueryTaskProvider implements vscode.TaskProvider {
 
 			if (maybePendingTaskResolver) {
 				maybePendingTaskResolver.resolve(event.execution);
+
 				PowerQueryTaskProvider.pendingTaskMap.delete(theTask);
 			}
 		});
@@ -175,6 +176,7 @@ export class PowerQueryTaskProvider implements vscode.TaskProvider {
 		}
 
 		result.push(PowerQueryTaskProvider.buildMsbuildTask());
+
 		result.push(
 			PowerQueryTaskProvider.buildMakePQXCompileTask(
 				this.pqTestService.pqTestLocation,
@@ -242,6 +244,7 @@ export class PowerQueryTaskProvider implements vscode.TaskProvider {
 				!token.isCancellationRequested
 			) {
 				const args: string[] = buildPqTestArgs(taskDef);
+
 				args.push(currentWorkingFolder);
 
 				const processExecution: vscode.ProcessExecution =

@@ -71,6 +71,7 @@ export class JsonRpcMethodNotFound extends BaseError {
 
 	constructor(message: string, jsonRpcMessage: any) {
 		super(message);
+
 		this.jsonRpcMessage = jsonRpcMessage;
 	}
 }
@@ -89,9 +90,12 @@ export type DeferredJsonRpcTask = { resolve: AnyFunction; reject: AnyFunction };
 
 export class JsonRpcSocketClient extends SocketClient {
 	private readonly _handle: (message: any) => Promise<any>;
+
 	private readonly _deferredDictionary: Map<number, DeferredJsonRpcTask> =
 		new Map();
+
 	private reader?: SocketMessageReader;
+
 	private writer?: SocketMessageWriter;
 
 	constructor(
@@ -109,6 +113,7 @@ export class JsonRpcSocketClient extends SocketClient {
 			}
 
 			this.reader = new SocketMessageReader(this.socket, "utf-8");
+
 			this.writer = new SocketMessageWriter(this.socket, "utf-8");
 
 			this.reader.listen((message: Message) => {
@@ -175,6 +180,7 @@ export class JsonRpcSocketClient extends SocketClient {
 	public request(method: string, params: any[] = []): Promise<any> {
 		return new Promise((resolve: AnyFunction, reject: AnyFunction) => {
 			const requestId: number = nextRequestId++;
+
 			this._deferredDictionary.set(requestId, { resolve, reject });
 
 			this.write({

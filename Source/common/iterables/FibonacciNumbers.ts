@@ -14,7 +14,9 @@ export const fibonacciNumbers: () => NumberIterator = () => {
 
 	return new NumberIterator(() => {
 		const value: number = curVal;
+
 		curVal = nextVal;
+
 		nextVal += value;
 
 		return {

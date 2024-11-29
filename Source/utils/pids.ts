@@ -36,6 +36,7 @@ export function isPortBusy(port: number): Promise<boolean> {
 				(socket: net.Socket) => {
 					// write a space char to activate the socket, do not remove it
 					socket.write(" ");
+
 					socket.pipe(socket);
 				},
 			);
@@ -46,6 +47,7 @@ export function isPortBusy(port: number): Promise<boolean> {
 
 			theServer.on("listening", () => {
 				theServer.close();
+
 				resolve(false);
 			});
 

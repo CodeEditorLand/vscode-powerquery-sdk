@@ -41,6 +41,7 @@ export type SocketExtended = Socket & { abort?: boolean };
 
 export class SocketClient extends EventEmitter {
 	private _status: StatusType = "closed";
+
 	private _socket: SocketExtended | undefined = undefined;
 
 	constructor(
@@ -74,12 +75,14 @@ export class SocketClient extends EventEmitter {
 
 			if (status === CONNECTING) {
 				currentSocket.abort = true;
+
 				currentSocket.destroy();
 
 				return;
 			}
 
 			const promise: Promise<void> = fromEvent(currentSocket, "close");
+
 			currentSocket.destroy();
 
 			return promise;
@@ -134,6 +137,7 @@ export class SocketClient extends EventEmitter {
 
 	send(data: any): void {
 		this._assertStatus(OPEN);
+
 		this._socket?.write(data);
 	}
 
@@ -149,6 +153,7 @@ export class SocketClient extends EventEmitter {
 		const previousStatus: StatusType = this._status;
 
 		this._socket = undefined;
+
 		this._status = CLOSED;
 
 		if (previousStatus === OPEN) {
@@ -167,20 +172,28 @@ export class SocketClient extends EventEmitter {
 	private _open: () => Promise<void> = () =>
 		promisifyTry(() => {
 			this._assertStatus(CLOSED);
+
 			this._status = CONNECTING;
 
 			return promisifyTry(() => {
 				const socket: Socket = createConnection(this.port, this.host);
+
 				this._socket = socket;
+
 				this._socket.setTimeout(0);
+
 				this._socket.setKeepAlive(true);
 
 				return fromEvents(socket, ["connect"], ["close", "error"]).then(
 					() => {
 						socket.on("close", this._onClose);
+
 						socket.on("error", this._onError);
+
 						socket.on("message", this._onMessage);
+
 						this._status = OPEN;
+
 						this.emit(OPEN);
 					},
 					([error]: any[]) => {

@@ -23,6 +23,7 @@ export const once = <F extends AnyFunction>(fun: F): F => {
 
 		if (internalFun) {
 			result = fun.apply(self, args);
+
 			internalFun = undefined;
 		}
 

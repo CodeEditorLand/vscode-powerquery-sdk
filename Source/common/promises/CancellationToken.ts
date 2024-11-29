@@ -41,6 +41,7 @@ export class CancellationToken implements IVscCancellationToken {
 	static readonly none: CancellationToken = new CancellationToken(
 		InternalActionGetter,
 	);
+
 	static readonly canceled: CancellationToken = new CancellationToken(
 		InternalActionGetter,
 	);
@@ -49,7 +50,9 @@ export class CancellationToken implements IVscCancellationToken {
 		void this.canceled.doCancel("canceled");
 
 		const none: Cancel = new Cancel("none");
+
 		this.none.addHandler(() => noop);
+
 		this.none._promise = Promise.resolve(none);
 	}
 
@@ -97,10 +100,15 @@ export class CancellationToken implements IVscCancellationToken {
 	}
 
 	private _handlers: AnyFunction[] | undefined = undefined;
+
 	private _reason: Cancel | undefined;
+
 	private _promise: Promise<Cancel> | undefined;
+
 	private _resolve: ((value: Cancel) => void) | undefined;
+
 	public onAbort: AnyFunction | undefined;
+
 	public onCancellationRequested: AnyFunction = noop;
 
 	constructor(
@@ -254,7 +262,9 @@ export class CancellationToken implements IVscCancellationToken {
 		if (this._resolve) {
 			const theResolve: ((value: Cancel) => void) | undefined =
 				this._resolve;
+
 			this._resolve = undefined;
+
 			theResolve(this._reason);
 		}
 
@@ -311,6 +321,7 @@ export class CancellationToken implements IVscCancellationToken {
 
 export class CancellationTokenSource {
 	public token: CancellationToken;
+
 	public cancel: CancelAction;
 
 	constructor(dependents: CancellationToken[] = []) {

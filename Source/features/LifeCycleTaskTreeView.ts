@@ -40,7 +40,9 @@ export class LifecycleTreeViewItem extends TreeItem {
 		public readonly uri?: vscode.Uri,
 	) {
 		super(label, collapsibleState);
+
 		this.command = command;
+
 		this.iconPath = iconPath;
 	}
 }
@@ -180,6 +182,7 @@ export class LifeCycleTaskTreeView
 	> {
 		return this._onDidChangeTreeData.event;
 	}
+
 	public refresh(): void {
 		this._onDidChangeTreeData.fire(undefined);
 	}

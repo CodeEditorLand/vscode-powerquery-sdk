@@ -212,6 +212,7 @@ export class NugetVersions {
 
 			if (distance <= minDistance) {
 				closestVersion = sortedVersionArr[i];
+
 				minDistance = distance;
 			}
 		}
@@ -230,6 +231,7 @@ export class NugetVersions {
 
 		if (isLNumber && isRNumber) {
 			lNumber = parseInt(l, 10);
+
 			rNumber = parseInt(r, 10);
 		}
 

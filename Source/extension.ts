@@ -75,9 +75,11 @@ export function activate(vscExtCtx: vscode.ExtensionContext): void {
 			if (theUri) {
 				const libraryExports: PQLSExt.LibraryJson =
 					convertExtensionInfoToLibraryJson(infos);
+
 				pqSdkOutputChannel?.appendDebugLine(
 					`onModuleLibraryUpdated: ${stringifyJson(libraryExports)}`,
 				);
+
 				vscPowerQuery.onModuleLibraryUpdated(
 					theUri.toString(),
 					libraryExports,

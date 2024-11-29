@@ -56,7 +56,9 @@ export class NugetHttpService extends NugetLiteHttpService {
 		const zip: StreamZipAsync = new StreamZip.async({
 			file: targetFilePath,
 		});
+
 		await zip.extract(null, outputLocation);
+
 		await zip.close();
 
 		setTimeout(async () => {

@@ -40,6 +40,7 @@ export class SimplePqTestResultViewBroker {
 	public static values: Readonly<
 		Record<SimplePqTestResultViewBrokerValues, ValueEventEmitter>
 	> = SimpleBrokerValues;
+
 	public static activate(): void {
 		vscode.window.onDidChangeActiveColorTheme(
 			(nextColor: vscode.ColorTheme) => {
@@ -62,6 +63,7 @@ export class SimplePqTestResultViewBroker {
 			});
 		}
 	}
+
 	public static emitAll(): void {
 		for (const oneProperty in this.values) {
 			// eslint-disable-next-line security/detect-object-injection
@@ -70,6 +72,7 @@ export class SimplePqTestResultViewBroker {
 			].emit();
 		}
 	}
+
 	public static deActivate(): void {
 		for (const oneProperty in this.values) {
 			// eslint-disable-next-line security/detect-object-injection
@@ -89,9 +92,11 @@ const isDevWebView: boolean = process.env.WEBVIEW_DEV_MODE === "true";
 export class PqTestResultViewPanel implements IDisposable {
 	// commands
 	public static readonly ShowResultWebViewCommand: string = `${PqTestResultViewPanelPrefix}.ShowResultWebView`;
+
 	public static readonly UpdateResultWebViewCommand: string = `${PqTestResultViewPanelPrefix}.UpdateResultWebView`;
 	// view constants
 	public static readonly viewType: string = `${PqTestResultViewPanelPrefix}.ResultWebView`;
+
 	public static readonly viewPaths: string[] = [
 		"webviewDist",
 		"pq-test-result-view",
@@ -132,6 +137,7 @@ export class PqTestResultViewPanel implements IDisposable {
 				PqTestResultViewPanel.UpdateResultWebViewCommand,
 				(nextResult: any) => {
 					PqTestResultViewPanel.createOrShow(vscExtCtx.extensionUri);
+
 					SimplePqTestResultViewBroker.values.latestPqTestResult.emit(
 						nextResult,
 					);
@@ -155,6 +161,7 @@ export class PqTestResultViewPanel implements IDisposable {
 							PqTestResultViewPanel.getWebviewOptions(
 								vscExtCtx.extensionUri,
 							);
+
 						PqTestResultViewPanel.revive(
 							webviewPanel,
 							vscExtCtx.extensionUri,
@@ -210,6 +217,7 @@ export class PqTestResultViewPanel implements IDisposable {
 		private readonly _extensionUri: vscode.Uri,
 	) {
 		this._update();
+
 		this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
 
 		// Update the content based on view changes
@@ -248,6 +256,7 @@ export class PqTestResultViewPanel implements IDisposable {
 
 	dispose(): void {
 		PqTestResultViewPanel.currentPanel = undefined;
+
 		this._panel.dispose();
 
 		while (this._disposables.length) {

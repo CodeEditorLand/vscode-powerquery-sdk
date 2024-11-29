@@ -44,8 +44,11 @@ class MQueryConfigurationProvider implements vscode.DebugConfigurationProvider {
 				editor?.document.languageId === ExtensionConstants.PQLanguageId
 			) {
 				config.type = ExtensionConstants.PQDebugType;
+
 				config.name = "Launch";
+
 				config.request = "launch";
+
 				config.program = "${file}";
 			}
 		}
@@ -96,7 +99,9 @@ class MQueryNodeDebugAdapterNamedPipeServerDescriptorFactory
 
 			this.server = Net.createServer((socket: Socket) => {
 				const session: MQueryDebugSession = new MQueryDebugSession();
+
 				session.setRunAsServer(true);
+
 				session.start(socket as NodeJS.ReadableStream, socket);
 			}).listen(pipePath);
 		}

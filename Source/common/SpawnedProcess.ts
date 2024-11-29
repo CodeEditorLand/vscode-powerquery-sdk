@@ -10,16 +10,23 @@ import { ChildProcess, SpawnOptionsWithoutStdio } from "child_process";
 
 export interface ProcessExit {
 	stdout: string;
+
 	stderr: string;
+
 	exitCode: number | null;
+
 	signal: NodeJS.Signals | null;
 }
 
 export interface AdditionalOption {
 	stdinStr?: string;
+
 	onSpawned?: (childProcess: ChildProcess) => void;
+
 	onStdOut?: (data: Buffer) => void;
+
 	onStdErr?: (data: Buffer) => void;
+
 	onExit?: (
 		code: number | null,
 		signal: NodeJS.Signals | null,
@@ -32,10 +39,15 @@ const DEFAULT_TIMEOUT: number = 3e5; // 5mins
 
 export class SpawnedProcess {
 	private readonly _promise: Promise<ProcessExit>;
+
 	private _cpStream: ChildProcess | undefined;
+
 	private _stdout: string = "";
+
 	private _stderr: string = "";
+
 	private _exitCode: number | null = null;
+
 	private _signal: NodeJS.Signals | null = null;
 
 	get deferred$(): Promise<ProcessExit> {
@@ -91,18 +103,21 @@ export class SpawnedProcess {
 
 				if (typeof additionalOption?.stdinStr === "string") {
 					theCpStream.stdin?.write(additionalOption.stdinStr);
+
 					theCpStream.stdin?.destroy();
 				}
 
 				theCpStream.stdout?.on("data", (data: Buffer) => {
 					additionalOption?.onStdOut &&
 						additionalOption?.onStdOut(data);
+
 					this._stdout = this._stdout.concat(data.toString("utf8"));
 				});
 
 				theCpStream.stderr?.on("data", (data: Buffer) => {
 					additionalOption?.onStdErr &&
 						additionalOption?.onStdErr(data);
+
 					this._stderr = this._stderr.concat(data.toString("utf8"));
 				});
 
@@ -111,7 +126,9 @@ export class SpawnedProcess {
 						additionalOption?.onStdErr(
 							Buffer.from(error.toString(), "utf-8"),
 						);
+
 					this._stderr = this._stderr.concat(error.toString());
+
 					rej(error);
 				});
 
@@ -119,7 +136,9 @@ export class SpawnedProcess {
 					"exit",
 					(code: number | null, signal: NodeJS.Signals | null) => {
 						this._exitCode = code;
+
 						this._signal = signal;
+
 						additionalOption?.onExit &&
 							additionalOption?.onExit(
 								code,

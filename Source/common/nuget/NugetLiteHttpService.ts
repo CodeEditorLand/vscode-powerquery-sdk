@@ -47,11 +47,13 @@ export class NugetLiteHttpService {
 	// public static PreReleaseIncludedVersionRegex: RegExp = /^((?:\.?[0-9]+){3,}(?:[-a-z0-9]+)?)$/;
 	// eslint-disable-next-line security/detect-unsafe-regex
 	public static ReleasedVersionRegex: RegExp = /^((?:\.?[0-9]+){3,})$/;
+
 	public static DefaultBaseUrl: string = "https://api.nuget.org";
 
 	protected instance: AxiosInstance = axios.create({
 		baseURL: NugetLiteHttpService.DefaultBaseUrl,
 	});
+
 	protected errorHandler: (error: Error) => void = () => {
 		// noop
 	};
@@ -124,6 +126,7 @@ export class NugetLiteHttpService {
 		packageName: string,
 		options: {
 			maximumNugetVersion?: NugetVersions;
+
 			minimumNugetVersion?: NugetVersions;
 		} = {},
 	): Promise<NugetVersions[]> {
@@ -204,6 +207,7 @@ export class NugetLiteHttpService {
 			oneTmpDir,
 			`${packageName}.${packageVersion}.zip`,
 		);
+
 		await this.downloadNugetPackage(
 			packageName,
 			packageVersion,
@@ -213,7 +217,9 @@ export class NugetLiteHttpService {
 		const zip: StreamZipAsync = new StreamZip.async({
 			file: targetFilePath,
 		});
+
 		await zip.extract(null, outputLocation);
+
 		await zip.close();
 
 		await tryRemoveDirectoryRecursively(oneTmpDir);

@@ -17,26 +17,43 @@ export type InputStep = (input: MultiStepInput) => Thenable<InputStep | void>;
 
 interface QuickPickParameters<T extends vscode.QuickPickItem> {
 	title: string;
+
 	step: number;
+
 	totalSteps: number;
+
 	items: T[];
+
 	activeItem?: T;
+
 	placeholder: string;
+
 	canSelectMany?: boolean;
+
 	buttons?: vscode.QuickInputButton[];
+
 	shouldResume?: () => Thenable<boolean>;
 }
 
 interface InputBoxParameters {
 	title: string;
+
 	step: number;
+
 	totalSteps: number;
+
 	value: string;
+
 	prompt: string;
+
 	ignoreFocusOut?: boolean;
+
 	password?: boolean;
+
 	validate: (value: string) => Promise<string | undefined>;
+
 	buttons?: vscode.QuickInputButton[];
+
 	shouldResume?: () => Thenable<boolean>;
 }
 
@@ -48,6 +65,7 @@ export class MultiStepInput {
 	}
 
 	private current?: vscode.QuickInput;
+
 	private steps: InputStep[] = [];
 
 	private async stepThrough(start: InputStep): Promise<void> {
@@ -58,6 +76,7 @@ export class MultiStepInput {
 
 			if (this.current) {
 				this.current.enabled = false;
+
 				this.current.busy = true;
 			}
 
@@ -67,6 +86,7 @@ export class MultiStepInput {
 			} catch (err) {
 				if (err === InputFlowAction.BACK) {
 					this.steps.pop();
+
 					step = this.steps.pop();
 				} else if (err === InputFlowAction.RESUME) {
 					step = this.steps.pop();
@@ -114,11 +134,17 @@ export class MultiStepInput {
 				) => {
 					const input: vscode.QuickPick<T> =
 						vscode.window.createQuickPick<T>();
+
 					input.title = title;
+
 					input.step = step;
+
 					input.totalSteps = totalSteps;
+
 					input.canSelectMany = Boolean(canSelectMany);
+
 					input.placeholder = placeholder;
+
 					input.items = items;
 
 					if (activeItem) {
@@ -162,6 +188,7 @@ export class MultiStepInput {
 					}
 
 					this.current = input;
+
 					this.current.show();
 				},
 			);
@@ -199,12 +226,19 @@ export class MultiStepInput {
 				) => {
 					const input: vscode.InputBox =
 						vscode.window.createInputBox();
+
 					input.title = title;
+
 					input.step = step;
+
 					input.totalSteps = totalSteps;
+
 					input.value = value || "";
+
 					input.prompt = prompt;
+
 					input.ignoreFocusOut = Boolean(ignoreFocusOut);
+
 					input.password = Boolean(password);
 
 					input.buttons = [
@@ -229,7 +263,9 @@ export class MultiStepInput {
 						),
 						input.onDidAccept(async () => {
 							const value: string = input.value;
+
 							input.enabled = false;
+
 							input.busy = true;
 
 							if (!(await validate(value))) {
@@ -244,6 +280,7 @@ export class MultiStepInput {
 						input.onDidChangeValue(async (text: string) => {
 							const current: Promise<string | undefined> =
 								validate(text);
+
 							validating = current;
 
 							const validationMessage: string | undefined =
@@ -269,6 +306,7 @@ export class MultiStepInput {
 					}
 
 					this.current = input;
+
 					this.current.show();
 				},
 			);

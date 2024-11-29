@@ -14,12 +14,14 @@ type RejectHandler = (reason: any) => void;
 
 export class WaitNotify {
 	private readonly eventEmitter: EventEmitter = new EventEmitter();
+
 	private readonly waitingIds: Array<string> = [];
 
 	wait(timeout: number = 0): Promise<void> {
 		return new Promise<void>(
 			(resolve: ResolveHandler<void>, reject: RejectHandler) => {
 				const currentId: string = crypto.randomUUID();
+
 				this.waitingIds.push(currentId);
 
 				let timeoutHandler: NodeJS.Timeout | undefined = undefined;
@@ -39,6 +41,7 @@ export class WaitNotify {
 
 						if (stillWaitingIdIndex !== -1) {
 							this.waitingIds.splice(stillWaitingIdIndex, 1);
+
 							reject(new Error("WaitNotify timeout"));
 						}
 					}, timeout);

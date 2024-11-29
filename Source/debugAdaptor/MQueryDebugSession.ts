@@ -55,17 +55,25 @@ interface ILaunchRequestArguments extends DebugProtocol.LaunchRequestArguments {
 
 export class MQueryDebugSession extends LoggingDebugSession {
 	private readonly configurationDone: WaitNotify = new WaitNotify();
+
 	private readonly processForked: DeferredValue<boolean> =
 		new DeferredValue<boolean>(false);
+
 	private readonly pqTestExecutableOnceTask?: PqTestExecutableOnceTask;
+
 	private readonly pqServiceHostClientLite?: PqServiceHostClientLite;
+
 	private readonly useServiceHost: boolean;
+
 	private currentProgram: string = "";
+
 	private isTerminated: boolean = false;
 
 	constructor() {
 		super();
+
 		this.setDebuggerLinesStartAt1(false);
+
 		this.setDebuggerColumnsStartAt1(false);
 
 		this.useServiceHost = ExtensionConfigurations.featureUseServiceHost;
@@ -287,6 +295,7 @@ export class MQueryDebugSession extends LoggingDebugSession {
 			}
 
 			this.sendEvent(new TerminatedEvent());
+
 			this.pqServiceHostClientLite.dispose();
 		}
 	}
@@ -307,6 +316,7 @@ export class MQueryDebugSession extends LoggingDebugSession {
 		};
 
 		this.isTerminated = true;
+
 		this.sendResponse(response);
 	}
 

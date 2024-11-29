@@ -101,8 +101,10 @@ function doResolveI18nTemplate<R extends Record<string, string>>(
 			curMatch[0].length,
 			theReplacedStr,
 		);
+
 		I18nTemplateItemRegex.lastIndex =
 			curMatch.index + theReplacedStr.length;
+
 		curMatch = I18nTemplateItemRegex.exec(result);
 	}
 

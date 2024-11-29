@@ -21,10 +21,15 @@ export type AnyEventListener = (type: string, callback: AnyFunction) => void;
 export type ExpectedEmitter =
 	| {
 			addEventListener?: AnyEventListener;
+
 			removeEventListener?: AnyEventListener;
+
 			addListener?: AnyEventListener;
+
 			removeListener?: AnyEventListener;
+
 			on?: AnyEventListener;
+
 			off?: AnyEventListener;
 	  }
 	| WebSocket;
@@ -52,7 +57,9 @@ export function makeEventAdder(
 		clean = once(() => {
 			for (
 				let i: number = 0, n: number = eventsAndListeners.length;
+
 				i < n;
+
 				i += 2
 			) {
 				remove.call(
@@ -74,26 +81,32 @@ export function makeEventAdder(
 					const args: unknown[] =
 						Array.prototype.slice.call(arguments);
 					(args as any).name = eventName;
+
 					cb(args);
 				}
 
 				eventsAndListeners.push(eventName, listener);
+
 				add.call(emitter, eventName, listener);
 			}
 		: (event: string, cb: AnyFunction): void => {
 				const listener: AnyEventListener = (arg: unknown) => {
 					clean();
+
 					cb(arg);
 				};
 
 				eventsAndListeners.push(event, listener);
+
 				add.call(emitter, event, listener);
 			};
 }
 
 export interface FromEventOption {
 	ignoreErrors?: boolean;
+
 	errorEventName?: string;
+
 	allParametersInArray?: boolean;
 }
 
@@ -114,6 +127,7 @@ export const fromEvent: (
 				emitter,
 				opt.allParametersInArray,
 			);
+
 			add(event, resolve);
 
 			if (!opt.ignoreErrors) {

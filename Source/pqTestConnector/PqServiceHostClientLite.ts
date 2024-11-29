@@ -39,7 +39,9 @@ import { executeBuildTaskAndAwaitIfNeeded } from "./PqTestTaskUtils";
 
 export interface PqServiceHostRequestParamBase {
 	SessionId: string;
+
 	PathToConnector?: string;
+
 	PathToQueryFile?: string;
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -55,7 +57,9 @@ export enum ResponseStatus {
 
 export interface PqServiceHostResponseResult<T = string> {
 	SessionId: string;
+
 	Status: ResponseStatus;
+
 	Payload: T;
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	InnerException?: any;
@@ -118,20 +122,28 @@ export class PqServiceHostClientLite
 	implements Omit<IPQTestService, OmittedPqTestMethods>, IDisposable
 {
 	public static readonly ExecutableName: string = "PQServiceHost.exe";
+
 	public static readonly ExecutablePidLockFileName: string =
 		"PQServiceHost.pid";
+
 	public static readonly ExecutablePortLockFileName: string =
 		"PQServiceHost.port";
 
 	pqTestReady: boolean = false;
+
 	pqTestLocation: string = "";
+
 	pqTestFullPath: string = "";
 
 	private firstTimeStarted: boolean = true;
+
 	protected readonly sessionId: string = vscode.env.sessionId;
+
 	protected jsonRpcSocketClient: JsonRpcSocketClient | undefined = undefined;
 	// private pingTimer: NodeJS.Timer | undefined = undefined;
+
 	protected lastPqRelatedFileTouchedDate: Date = new Date(0);
+
 	protected _disposables: Array<IDisposable> = [];
 
 	public get pqServiceHostConnected(): boolean {
@@ -238,7 +250,9 @@ export class PqServiceHostClientLite
 
 		try {
 			await theJsonRpcSocketClient.open(defaultBackOff);
+
 			this.emit(READY);
+
 			this.jsonRpcSocketClient = theJsonRpcSocketClient;
 		} catch (error: unknown) {
 			this.outputChannel.appendErrorLine(
@@ -295,10 +309,12 @@ export class PqServiceHostClientLite
 				}, 250);
 
 				theJsonRpcSocketClient.off(CLOSED, handleJsonRpcSocketExiting);
+
 				theJsonRpcSocketClient.off(ERROR, handleJsonRpcSocketError);
 			};
 
 			theJsonRpcSocketClient.on(CLOSED, handleJsonRpcSocketExiting);
+
 			theJsonRpcSocketClient.on(ERROR, handleJsonRpcSocketError);
 		}
 	}
@@ -339,8 +355,11 @@ export class PqServiceHostClientLite
 	private disposeCurrentJsonRpcSocketClient(): void {
 		if (this.jsonRpcSocketClient) {
 			this.onDisconnecting();
+
 			void this.jsonRpcSocketClient.close();
+
 			this.jsonRpcSocketClient = undefined;
+
 			this.emit(DISPOSED);
 
 			this.outputChannel.appendInfoLine(
@@ -364,6 +383,7 @@ export class PqServiceHostClientLite
 	}
 
 	private doStartAndListenPqServiceHostIfNeededInProgress: boolean = false;
+
 	private async doStartAndListenPqServiceHostIfNeeded(
 		nextPQTestLocation: string,
 		tryNumber: number = 0,
@@ -437,6 +457,7 @@ export class PqServiceHostClientLite
 			while (maxTry > 0 && !portInUse) {
 				// eslint-disable-next-line no-await-in-loop
 				await delay(895);
+
 				portNumber = this.doSeizeNumberFromLockFile(portFileFullPath);
 
 				if (typeof portNumber === "number") {
@@ -456,6 +477,7 @@ export class PqServiceHostClientLite
 				typeof portNumber === "number"
 			) {
 				this.disposeCurrentJsonRpcSocketClient();
+
 				await this.createJsonRpcSocketClient(portNumber);
 			}
 		} finally {
@@ -465,6 +487,7 @@ export class PqServiceHostClientLite
 		setTimeout(() => {
 			if (!this.pqServiceHostConnected) {
 				this.emit(RETRYING);
+
 				void this.doStartAndListenPqServiceHostIfNeeded(
 					nextPQTestLocation,
 					tryNumber + 1,
@@ -483,18 +506,25 @@ export class PqServiceHostClientLite
 
 		if (!pqServiceHostExe || !nextPQTestLocation) {
 			this.pqTestReady = false;
+
 			this.pqTestLocation = "";
+
 			this.pqTestFullPath = "";
 		} else {
 			this.pqTestReady = true;
+
 			this.pqTestLocation = nextPQTestLocation;
+
 			this.pqTestFullPath = pqServiceHostExe;
+
 			this.outputChannel.appendInfoLine(
 				`PqServiceHost.exe found at ${this.pqTestFullPath}`,
 			);
 
 			this.onReconnecting();
+
 			this.emit(INIT);
+
 			void this.doStartAndListenPqServiceHostIfNeeded(nextPQTestLocation);
 		}
 	}
