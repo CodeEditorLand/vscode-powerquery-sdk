@@ -326,7 +326,7 @@
 	"description": "Power Query Connector SDK",
 	"devDependencies": {
 		"@types/chai": "5.0.1",
-		"@types/node": "22.10.0",
+		"@types/node": "22.10.1",
 		"@types/sinon": "17.0.3",
 		"chai": "5.1.2",
 		"glob": "11.0.0",
