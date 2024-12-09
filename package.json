@@ -350,7 +350,7 @@
 		]
 	},
 	"main": "./dist/extension.js",
-	"name": "vscode-powerquery-sdk",
+	"name": "@codeeditorland/powerquery-sdk",
 	"scripts": {
 		"audit": "npm audit --omit=dev",
 		"build": "npm run build:pq-test-result-view",
