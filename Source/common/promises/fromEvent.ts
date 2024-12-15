@@ -57,9 +57,7 @@ export function makeEventAdder(
 		clean = once(() => {
 			for (
 				let i: number = 0, n: number = eventsAndListeners.length;
-
 				i < n;
-
 				i += 2
 			) {
 				remove.call(
