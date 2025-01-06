@@ -347,11 +347,11 @@
 	},
 	"devDependencies": {
 		"@types/chai": "5.0.1",
-		"@types/node": "22.10.1",
+		"@types/node": "22.10.5",
 		"@types/sinon": "17.0.3",
 		"chai": "5.1.2",
 		"glob": "11.0.0",
-		"lint-staged": "15.2.10",
+		"lint-staged": "15.3.0",
 		"rimraf": "6.0.1",
 		"sinon": "19.0.2",
 		"ts-loader": "9.5.1",
