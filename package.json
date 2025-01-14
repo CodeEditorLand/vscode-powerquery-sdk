@@ -347,14 +347,14 @@
 	},
 	"devDependencies": {
 		"@types/chai": "5.0.1",
-		"@types/node": "22.10.5",
+		"@types/node": "22.10.6",
 		"@types/sinon": "17.0.3",
 		"chai": "5.1.2",
-		"glob": "11.0.0",
+		"glob": "11.0.1",
 		"lint-staged": "15.3.0",
 		"rimraf": "6.0.1",
 		"sinon": "19.0.2",
-		"ts-loader": "9.5.1",
+		"ts-loader": "9.5.2",
 		"vinyl-fs": "4.0.0"
 	},
 	"extensionDependencies": [
